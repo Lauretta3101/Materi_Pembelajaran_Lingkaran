@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lingkaran & Garis Singgung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="page">
+
+<!-- ==================== HERO ==================== -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">📐 Matematika · Kelas XI</div>
+      <h1 class="hero-title">Lingkaran &amp;<br><span class="hero-accent">Garis Singgung</span></h1>
+      <p class="hero-sub">Eksplorasi interaktif · 8 unsur · 3 rumus · Garis singgung lengkap</p>
+      <div class="hero-chips">
+        <span class="chip chip-y">8 Unsur Lingkaran</span>
+        <span class="chip chip-o">Rumus Dasar</span>
+        <span class="chip chip-o">Garis Singgung</span>
+        <span class="chip chip-o">Latihan Soal</span>
+      </div>
+    </div>
+    <div class="hero-orb">
+      <svg viewBox="0 0 190 190" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="95" cy="95" r="88" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4 4"/>
+        <circle cx="95" cy="95" r="65" fill="rgba(37,99,235,.22)" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+        <circle cx="95" cy="95" r="65" fill="url(#cGrad)" stroke="none"/>
+        <defs>
+          <radialGradient id="cGrad" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="rgba(255,255,255,.08)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+          </radialGradient>
+        </defs>
+        <line x1="30" y1="95" x2="160" y2="95" stroke="rgba(251,191,36,.4)" stroke-dasharray="5 3" stroke-width="1.2"/>
+        <line x1="95" y1="95" x2="95" y2="30" stroke="rgba(255,255,255,.75)" stroke-width="1.8"/>
+        <path d="M95 30 A65 65 0 0 1 152 65" fill="none" stroke="#fbbf24" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="95" cy="95" r="5.5" fill="#fbbf24"/>
+        <rect x="92" y="92" width="6" height="6" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/>
+        <text x="101" y="91" fill="rgba(255,255,255,.95)" font-size="12" font-weight="800" font-family="Plus Jakarta Sans,sans-serif">O</text>
+        <text x="87" y="107" fill="rgba(255,255,255,.5)" font-size="9" font-family="Plus Jakarta Sans,sans-serif">r</text>
+        <text x="150" y="93" fill="rgba(251,191,36,.7)" font-size="9" font-family="Plus Jakarta Sans,sans-serif">d</text>
+        <circle cx="95" cy="30" r="3" fill="rgba(255,255,255,.7)"/>
+        <circle cx="152" cy="65" r="3" fill="#fbbf24"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== NAV TABS ==================== -->
+<div class="nav-tabs">
+  <button class="tab active" onclick="showTab('t-unsur',this)">
+    <span class="tab-icon">🔵</span>Unsur Lingkaran
+  </button>
+  <button class="tab" onclick="showTab('t-rumus',this)">
+    <span class="tab-icon">📐</span>Rumus Dasar
+  </button>
+  <button class="tab" onclick="showTab('t-eksplorasi',this)">
+    <span class="tab-icon">🔍</span>Eksplorasi
+  </button>
+  <button class="tab" onclick="showTab('t-gs',this)">
+    <span class="tab-icon">📏</span>Garis Singgung
+  </button>
+  <button class="tab" onclick="showTab('t-soal',this)">
+    <span class="tab-icon">✏️</span>Latihan Soal
+  </button>
+</div>
+
+<!-- ==================== TAB 1: UNSUR ==================== -->
+<div class="section show" id="t-unsur">
+  <span class="slabel slabel-b">Materi 1</span>
+  <h2 class="stitle">8 Unsur Lingkaran</h2>
+  <p class="sdesc">Lingkaran adalah himpunan semua titik yang berjarak sama dari satu titik pusat. Klik kartu untuk tahu lebih lanjut.</p>
+
+  <div class="unsur-grid" id="unsurGrid">
+    <div class="ucard" onclick="showUnsur(0)" style="border-top:3px solid #2563eb">
+      <span class="ucard-num">01</span><span class="ucard-icon">🎯</span>
+      <div class="ucard-name">Titik Pusat</div><div class="ucard-short">(O)</div>
+      <div class="ucard-bar" style="background:#2563eb"></div>
+    </div>
+    <div class="ucard" onclick="showUnsur(1)" style="border-top:3px solid #f59e0b">
+      <span class="ucard-num">02</span><span class="ucard-icon">📏</span>
+      <div class="ucard-name">Jari-jari</div><div class="ucard-short">(r)</div>
+      <div class="ucard-bar" style="background:#f59e0b"></div>
+    </div>
+    <div class="ucard" onclick="showUnsur(2)" style="border-top:3px solid #10b981">
+      <span class="ucard-num">03</span><span class="ucard-icon">↔️</span>
+      <div class="ucard-name">Diameter</div><div class="ucard-short">(d = 2r)</div>
+      <div class="ucard-bar" style="background:#10b981"></div>
+    </div>
+    <div class="ucard" onclick="showUnsur(3)" style="border-top:3px solid #ef4444">
+      <span class="ucard-num">04</span><span class="ucard-icon">〰️</span>
+      <div class="ucard-name">Busur</div><div class="ucard-short">Bagian keliling</div>
+      <div class="ucard-bar" style="background:#ef4444"></div>
+    </div>
+    <div class="ucard" onclick="showUnsur(4)" style="border-top:3px solid #8b5cf6">
+      <span class="ucard-num">05</span><span class="ucard-icon">📐</span>
+      <div class="ucard-name">Tali Busur</div><div class="ucard-short">Garis di tepi</div>
+      <div class="ucard-bar" style="background:#8b5cf6"></div>
+    </div>
+    <div class="ucard" onclick="showUnsur(5)" style="border-top:3px solid #06b6d4">
+      <span class="ucard-num">06</span><span class="ucard-icon">🌙</span>
+      <div class="ucard-name">Tembereng</div><div class="ucard-short">Daerah busur sabit</div>
+      <div class="ucard-bar" style="background:#06b6d4"></div>
+    </div>
+    <div class="ucard" onclick="showUnsur(6)" style="border-top:3px solid #ec4899">
+      <span class="ucard-num">07</span><span class="ucard-icon">🍕</span>
+      <div class="ucard-name">Juring</div><div class="ucard-short">Potongan pizza</div>
+      <div class="ucard-bar" style="background:#ec4899"></div>
+    </div>
+    <div class="ucard" onclick="showUnsur(7)" style="border-top:3px solid #607d8b">
+      <span class="ucard-num">08</span><span class="ucard-icon">⊥</span>
+      <div class="ucard-name">Apotema</div><div class="ucard-short">Jarak ke tali busur</div>
+      <div class="ucard-bar" style="background:#607d8b"></div>
+    </div>
+  </div>
+
+  <div class="unsur-detail" id="unsurDetail">
+    <div class="ud-head">
+      <div class="ud-icon" id="udIcon"></div>
+      <div><div class="ud-name" id="udName"></div><div class="ud-sub" id="udSub"></div></div>
+    </div>
+    <p class="ud-desc" id="udDesc"></p>
+    <div class="ud-fact" id="udFact"></div>
+  </div>
+</div>
+
+<!-- ==================== TAB 2: RUMUS ==================== -->
+<div class="section" id="t-rumus">
+  <span class="slabel slabel-y">Rumus Dasar</span>
+  <h2 class="stitle">3 Rumus Wajib Lingkaran</h2>
+  <p class="sdesc">Semua rumus berpangkal dari <strong>jari-jari (r)</strong>. Kuasai ini, soal apapun bisa diselesaikan.</p>
+
+  <div class="rumus-grid">
+    <div class="rcard rcard-b">
+      <div class="rcard-name">Diameter</div>
+      <div class="rcard-sym">d</div>
+      <div class="rcard-formula">d = 2r</div>
+      <div class="rcard-desc">Dua kali jari-jari, tali busur terpanjang yang lewat pusat.</div>
+    </div>
+    <div class="rcard rcard-y">
+      <div class="rcard-name">Keliling</div>
+      <div class="rcard-sym">K</div>
+      <div class="rcard-formula">K = 2πr</div>
+      <div class="rcard-desc">Total panjang garis tepi lingkaran.</div>
+    </div>
+    <div class="rcard rcard-g">
+      <div class="rcard-name">Luas</div>
+      <div class="rcard-sym">L</div>
+      <div class="rcard-formula">L = πr²</div>
+      <div class="rcard-desc">Luas seluruh daerah dalam lingkaran.</div>
+    </div>
+  </div>
+
+  <div class="rumus-extra">
+    <div class="rumus-extra-title">Rumus Turunan Lainnya</div>
+    <div class="rumus-extra-grid">
+      <div class="rext-card">
+        <div class="rext-label" style="color:#8b5cf6">Panjang Busur</div>
+        <div class="rext-formula">l = (α/360°) × 2πr</div>
+        <div class="rext-sub">α = sudut pusat (derajat)</div>
+      </div>
+      <div class="rext-card">
+        <div class="rext-label" style="color:#ec4899">Luas Juring</div>
+        <div class="rext-formula">L = (α/360°) × πr²</div>
+        <div class="rext-sub">Proporsional terhadap sudut</div>
+      </div>
+      <div class="rext-card">
+        <div class="rext-label" style="color:#06b6d4">Luas Tembereng</div>
+        <div class="rext-formula">L = L.juring − L.segitiga</div>
+        <div class="rext-sub">Juring dikurangi segitiga</div>
+      </div>
+      <div class="rext-card">
+        <div class="rext-label" style="color:#f59e0b">Apotema</div>
+        <div class="rext-formula">a = √(r² − (½l)²)</div>
+        <div class="rext-sub">l = panjang tali busur</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pi-box">
+    <div class="pi-title">Nilai π (Pi)</div>
+    <div class="pi-cards">
+      <div class="pi-card"><div class="pi-lbl">Tepat</div><div class="pi-val">π ≈ 3.14159…</div></div>
+      <div class="pi-card"><div class="pi-lbl">Pecahan</div><div class="pi-val">π ≈ ²²/₇</div></div>
+      <div class="pi-card"><div class="pi-lbl">Di soal</div><div class="pi-val">π = 3.14</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB 3: EKSPLORASI ==================== -->
+<div class="section" id="t-eksplorasi">
+  <span class="slabel slabel-g">Interaktif</span>
+  <h2 class="stitle">Eksplorasi Bagian Lingkaran</h2>
+  <p class="sdesc">Klik setiap nama di panel kanan — bagian yang dipilih akan menyala di gambar beserta penjelasan lengkapnya!</p>
+  <div class="exp-wrap">
+    <div>
+      <svg id="expSvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="75" fill="#eef4ff" stroke="#93c5fd" stroke-width="2"/>
+        <path id="eJuring"    d="M100 100 L100 25 A75 75 0 0 1 175 100 Z" fill="rgba(236,72,153,0.12)" stroke="none"/>
+        <path id="eTembereng" d="M100 25 A75 75 0 0 1 175 100 L100 25 Z"  fill="rgba(6,182,212,0.2)"  stroke="none"/>
+        <line id="eDiameter"  x1="25"  y1="100" x2="175" y2="100" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <line id="eRadius"    x1="100" y1="100" x2="100" y2="25"  stroke="#cbd5e1" stroke-width="2"/>
+        <line id="eTaliBusur" x1="100" y1="25"  x2="175" y2="100" stroke="#cbd5e1" stroke-width="2"/>
+        <path id="eBusur"     d="M100 25 A75 75 0 0 1 175 100" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+        <line id="eApotema"   x1="100" y1="100" x2="137.5" y2="62.5" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <rect id="eApotemaRect" x="133" y="59" width="7" height="7" fill="none" stroke="#cbd5e1" stroke-width="1"/>
+        <circle id="eCenter" cx="100" cy="100" r="5" fill="#3b82f6"/>
+        <text x="107" y="96"  fill="#3b82f6" font-size="11" font-weight="800" font-family="Plus Jakarta Sans,sans-serif">O</text>
+        <text x="92"  y="113" fill="#94a3b8" font-size="8"  font-family="Plus Jakarta Sans,sans-serif">r</text>
+      </svg>
+    </div>
+    <div>
+      <div class="exp-list">
+        <div class="ep-item" data-id="eCenter"    data-color="#3b82f6" data-name="Titik Pusat (O)" data-desc="Titik tetap di tengah lingkaran. Semua titik di tepi memiliki jarak yang sama = r dari titik ini." onclick="selectEP(this)">
+          <div class="ep-dot" style="background:#3b82f6"></div><span>Titik Pusat (O)</span><span class="ep-chk">✓</span>
+        </div>
+        <div class="ep-item" data-id="eRadius"    data-color="#f59e0b" data-name="Jari-jari (r)"   data-desc="Ruas garis dari titik pusat ke titik manapun di tepi lingkaran. Panjangnya selalu sama ke semua arah." onclick="selectEP(this)">
+          <div class="ep-dot" style="background:#f59e0b"></div><span>Jari-jari (r)</span><span class="ep-chk">✓</span>
+        </div>
+        <div class="ep-item" data-id="eDiameter"  data-color="#10b981" data-name="Diameter (d)"    data-desc="Tali busur yang melewati titik pusat. Nilainya d = 2r. Diameter adalah tali busur TERPANJANG." onclick="selectEP(this)">
+          <div class="ep-dot" style="background:#10b981"></div><span>Diameter (d)</span><span class="ep-chk">✓</span>
+        </div>
+        <div class="ep-item" data-id="eBusur"     data-color="#ef4444" data-name="Busur"           data-desc="Bagian dari keliling lingkaran — garis melengkung yang menghubungkan dua titik di tepi." onclick="selectEP(this)">
+          <div class="ep-dot" style="background:#ef4444"></div><span>Busur</span><span class="ep-chk">✓</span>
+        </div>
+        <div class="ep-item" data-id="eTaliBusur" data-color="#8b5cf6" data-name="Tali Busur"      data-desc="Ruas garis lurus yang menghubungkan dua titik di tepi, tapi TIDAK melewati pusat." onclick="selectEP(this)">
+          <div class="ep-dot" style="background:#8b5cf6"></div><span>Tali Busur</span><span class="ep-chk">✓</span>
+        </div>
+        <div class="ep-item" data-id="eTembereng" data-color="#06b6d4" data-name="Tembereng"       data-desc="Daerah yang dibatasi oleh tali busur dan busur lingkaran. Bentuknya seperti bulan sabit." onclick="selectEP(this)">
+          <div class="ep-dot" style="background:#06b6d4"></div><span>Tembereng</span><span class="ep-chk">✓</span>
+        </div>
+        <div class="ep-item" data-id="eJuring"    data-color="#ec4899" data-name="Juring"          data-desc="Daerah seperti potongan pizza — dibatasi dua jari-jari dan busur di antaranya." onclick="selectEP(this)">
+          <div class="ep-dot" style="background:#ec4899"></div><span>Juring</span><span class="ep-chk">✓</span>
+        </div>
+        <div class="ep-item" data-id="eApotema"   data-color="#607d8b" data-name="Apotema"         data-desc="Jarak terpendek dari titik pusat ke tali busur. Selalu tegak lurus (90°) terhadap tali busur." onclick="selectEP(this)">
+          <div class="ep-dot" style="background:#607d8b"></div><span>Apotema</span><span class="ep-chk">✓</span>
+        </div>
+      </div>
+      <div class="ep-prog-bar"><div class="ep-prog-fill" id="epFill"></div></div>
+      <div class="ep-prog-text">Ditemukan: <strong id="epCnt" style="color:#2563eb">0</strong>/8 bagian</div>
+      <div class="ep-popup" id="epPopup">
+        <div class="ep-popup-name" id="epName"></div>
+        <div class="ep-popup-desc" id="epDesc"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB 4: GARIS SINGGUNG ==================== -->
+<div class="section" id="t-gs">
+  <div class="gs-dark">
+    <span class="slabel slabel-p" style="margin-bottom:12px;display:inline-block">Materi 2</span>
+    <h2 class="stitle" style="color:#fff">Garis Singgung Lingkaran</h2>
+    <p class="sdesc" style="color:rgba(255,255,255,.55)">Garis yang menyentuh lingkaran di <strong style="color:#fbbf24">tepat satu titik</strong> tanpa memotongnya. Titik itu disebut <strong style="color:#fbbf24">titik singgung</strong>.</p>
+    <div class="gs-layout">
+      <div>
+        <div class="gs-prop">
+          <div class="gs-badge" style="background:#fbbf24;color:#78350f">⊥</div>
+          <div><div class="gp-title">Tegak lurus jari-jari</div><div class="gp-text">Di titik singgung, garis singgung SELALU membentuk sudut 90° dengan jari-jari. Ini sifat terpenting!</div></div>
+        </div>
+        <div class="gs-prop">
+          <div class="gs-badge" style="background:#10b981;color:#fff">①</div>
+          <div><div class="gp-title">Tepat satu titik persekutuan</div><div class="gp-text">Berbeda dengan garis potong (2 titik). Garis singgung hanya menyentuh di 1 titik.</div></div>
+        </div>
+        <div class="gs-prop">
+          <div class="gs-badge" style="background:#3b82f6;color:#fff">=</div>
+          <div><div class="gp-title">Dua garis dari titik luar</div><div class="gp-text">Dari satu titik di luar lingkaran, bisa dibuat tepat 2 garis singgung — panjangnya selalu sama!</div></div>
+        </div>
+        <div class="gs-prop">
+          <div class="gs-badge" style="background:#ef4444;color:#fff">✕</div>
+          <div><div class="gp-title">Tidak memotong lingkaran</div><div class="gp-text">Jarak dari pusat ke garis singgung = r. Jika jarak &lt; r → memotong. Jika &gt; r → tidak menyentuh.</div></div>
+        </div>
+        <div class="gs-extra">
+          <div class="gs-extra-title">Jenis Garis Singgung Persekutuan</div>
+          <table class="gs-tbl">
+            <tr><th>Jenis</th><th>Keterangan</th><th>Rumus</th></tr>
+            <tr>
+              <td style="color:#fbbf24;font-weight:800">GSPL</td>
+              <td style="color:rgba(255,255,255,.65)">Persekutuan Luar</td>
+              <td>√(p²−(R−r)²)</td>
+            </tr>
+            <tr>
+              <td style="color:#fb923c;font-weight:800">GSPP</td>
+              <td style="color:rgba(255,255,255,.65)">Persekutuan Dalam</td>
+              <td>√(p²−(R+r)²)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div>
+        <svg class="gs-svg" viewBox="0 0 270 220" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="110" cy="110" r="75" fill="rgba(37,99,235,.15)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+          <circle cx="110" cy="110" r="4.5" fill="#fbbf24"/>
+          <text x="115" y="108" fill="#fbbf24" font-size="11" font-weight="800" font-family="Plus Jakarta Sans,sans-serif">O</text>
+          <line x1="110" y1="110" x2="225" y2="35"  stroke="rgba(255,255,255,.2)" stroke-width="1.2"/>
+          <line x1="110" y1="110" x2="225" y2="185" stroke="rgba(255,255,255,.2)" stroke-width="1.2"/>
+          <line x1="225" y1="15"  x2="225" y2="205" stroke="#fbbf24" stroke-width="2.5"/>
+          <circle cx="225" cy="35"  r="3.5" fill="#ef4444"/>
+          <circle cx="225" cy="185" r="3.5" fill="#ef4444"/>
+          <circle cx="225" cy="110" r="4.5" fill="#f87171"/>
+          <text x="233" y="114" fill="#f87171" font-size="12" font-weight="800" font-family="Plus Jakarta Sans,sans-serif">P</text>
+          <rect x="214" y="33"  width="10" height="10" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+          <rect x="214" y="176" width="10" height="10" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+          <text x="155" y="78"  fill="rgba(255,255,255,.55)" font-size="10" font-family="Plus Jakarta Sans,sans-serif">t</text>
+          <text x="155" y="150" fill="rgba(255,255,255,.55)" font-size="10" font-family="Plus Jakarta Sans,sans-serif">t</text>
+          <text x="228" y="112" fill="#fbbf24" font-size="10" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">garis singgung</text>
+        </svg>
+        <div class="gs-formula-box">
+          <div class="gs-fl">Panjang Garis Singgung dari Titik Luar</div>
+          <div class="gs-fm">t = √(d² − r²)</div>
+          <div class="gs-fv">
+            <span><strong>d</strong> = jarak titik luar ke pusat</span>
+            <span><strong>r</strong> = jari-jari lingkaran</span>
+            <span><strong>t</strong> = panjang garis singgung</span>
+          </div>
+        </div>
+        <div class="gs-calc-box">
+          <div class="gs-calc-title">Hitung Sendiri</div>
+          <label class="gs-calc-label">d (jarak ke pusat)</label>
+          <div class="gs-calc-row">
+            <input type="range" min="8" max="26" value="13" step="1" id="gsD2" oninput="updateGS2()">
+            <span class="gs-calc-val" id="gsDV">13</span>
+          </div>
+          <label class="gs-calc-label">r (jari-jari)</label>
+          <div class="gs-calc-row" style="margin-bottom:12px">
+            <input type="range" min="2" max="7" value="5" step="1" id="gsR2" oninput="updateGS2()">
+            <span class="gs-calc-val" id="gsRV">5</span>
+          </div>
+          <div class="gs-calc-result">
+            <span>t = √(d²−r²) =</span>
+            <strong id="gsRes">12.00</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gs-teorema">
+    <span class="slabel slabel-p">Teorema Sudut</span>
+    <h3 class="teorema-title">Sudut yang Berhubungan dengan Garis Singgung</h3>
+    <div class="gs-teorema-grid">
+      <div class="gt-card">
+        <div class="gt-label" style="color:#8b5cf6">Garis Singgung &amp; Tali Busur</div>
+        <div class="gt-formula">∠ = ½ busur yang dipotong</div>
+        <div class="gt-desc">Sudut antara garis singgung dan tali busur sama dengan setengah busur yang diapit oleh keduanya.</div>
+      </div>
+      <div class="gt-card">
+        <div class="gt-label" style="color:#ec4899">Dua Garis Singgung</div>
+        <div class="gt-formula">∠P = ½|busur besar − busur kecil|</div>
+        <div class="gt-desc">Sudut di titik luar P sama dengan setengah selisih busur besar dan busur kecil.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB 5: LATIHAN SOAL ==================== -->
+<div class="section" id="t-soal">
+  <span class="slabel slabel-v">Latihan Soal</span>
+  <h2 class="stitle">10 Soal Pilihan Ganda</h2>
+  <p class="sdesc">Jawab semua soal dengan benar untuk mendapat nilai sempurna. Setiap soal diberi waktu 20 detik!</p>
+
+  <div id="quizArea">
+    <div class="quiz-header">
+      <div class="quiz-meta">
+        <span class="qbadge">Soal Latihan</span>
+        <span class="qnum" id="qNum">Soal 1 / 10</span>
+      </div>
+      <div class="score-box">
+        <span class="score-lbl">Skor</span>
+        <span class="score-val" id="scoreLive">0</span>
+      </div>
+    </div>
+    <div class="qdots" id="qdots"></div>
+    <div class="timer-wrap">
+      <div class="timer-bar"><div class="timer-fill" id="timerFill" style="width:100%"></div></div>
+      <span class="timer-num" id="timerNum">20</span>
+    </div>
+    <div class="q-card">
+      <div class="q-type-tag" id="qType">Pilihan Ganda</div>
+      <div class="q-text" id="qText"></div>
+      <div id="qFormula" class="q-formula" style="display:none"></div>
+    </div>
+    <div class="opts-grid" id="optsGrid"></div>
+    <div class="feedback-box" id="feedbackBox">
+      <div class="fb-title" id="fbTitle"></div>
+      <div id="fbText"></div>
+    </div>
+    <button class="next-btn" id="nextBtn" onclick="nextQ()" disabled>Lanjut →</button>
+  </div>
+
+  <div class="result-screen" id="resultScreen">
+    <div id="resultTrophy" class="result-trophy"></div>
+    <div class="result-stars" id="resultStars"></div>
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-sub" id="resultSub"></div>
+    <div class="result-score-big" id="resultScore"></div>
+    <div class="result-score-max">dari 100 poin</div>
+    <div class="result-stats">
+      <div class="rstat"><div class="rstat-val" id="rCorrect" style="color:#10b981"></div><div class="rstat-lbl">Benar</div></div>
+      <div class="rstat"><div class="rstat-val" id="rWrong"   style="color:#ef4444"></div><div class="rstat-lbl">Salah</div></div>
+      <div class="rstat"><div class="rstat-val" id="rTime"></div><div class="rstat-lbl">Detik</div></div>
+    </div>
+    <div class="result-breakdown" id="resultBreakdown"></div>
+    <div>
+      <button class="retry-btn retry-outline" onclick="retryWrong()" id="retryWrongBtn">🔁 Ulangi yang Salah</button>
+      <button class="retry-btn" onclick="startQuiz()">↺ Mulai Ulang</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.page -->
+
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
