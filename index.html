@@ -1,423 +1,990 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lingkaran & Garis Singgung</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Lingkaran & Garis Singgung — Matematika Kelas XI</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --b:#2563eb;--bd:#1d4ed8;--bl:#eff6ff;
+  --y:#f59e0b;--yd:#d97706;--yl:#fffbeb;
+  --g:#10b981;--gl:#ecfdf5;
+  --r:#ef4444;--rl:#fef2f2;
+  --p:#7c3aed;--pl:#f5f3ff;
+  --dark:#0f172a;--dc:#1e293b;
+  --tx:#1e293b;--tm:#64748b;
+  --bdr:#e2e8f0;--bg:#f8fafc;--white:#fff;
+  --rad:14px;--rads:8px;
+  --sh:0 4px 24px rgba(0,0,0,.07);
+  --shl:0 8px 40px rgba(0,0,0,.12);
+  --f:'Nunito',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--white);color:var(--tx);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+strong{font-weight:800}
+button{font-family:var(--f)}
+
+/* ANIMATIONS */
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes spinR{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideL{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes ripple{from{transform:scale(0);opacity:.5}to{transform:scale(3.5);opacity:0}}
+@keyframes countUp{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.1)}70%{transform:scale(.9)}100%{transform:scale(1);opacity:1}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(124,58,237,.4)}50%{box-shadow:0 0 40px rgba(124,58,237,.8)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes confetti{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+@keyframes orbitSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes orbitSpinR{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+@keyframes starPop{0%{transform:scale(0) rotate(-30deg);opacity:0}60%{transform:scale(1.3) rotate(5deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;transition-delay:var(--delay,0s)}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+/* ===================== NAVBAR ===================== */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:var(--bd);padding:0 32px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 20px rgba(37,99,235,.3);transition:background .3s;
+}
+.navbar.scrolled{background:rgba(29,78,216,.97);backdrop-filter:blur(10px)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800;color:#fff}
+.nav-logo-icon{font-size:20px;color:var(--y);animation:pulse 3s ease-in-out infinite}
+.nav-logo em{color:var(--y);font-style:normal}
+.nav-links{display:flex;gap:4px}
+.nav-link{
+  padding:6px 13px;border-radius:20px;font-size:12px;font-weight:700;
+  color:rgba(255,255,255,.7);transition:all .2s;cursor:pointer;border:none;background:transparent;
+}
+.nav-link:hover,.nav-link.active{background:rgba(255,255,255,.15);color:#fff}
+.nav-link-soal{background:var(--y);color:#78350f!important;font-weight:900}
+.nav-link-soal:hover{background:#fbbf24}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all .2s}
+
+/* ===================== HERO ===================== */
+.hero{
+  min-height:100vh;
+  background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 50%,#1d4ed8 100%);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:100px 80px 60px;position:relative;overflow:hidden;
+}
+.hero-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1.5px,transparent 1.5px);background-size:28px 28px;pointer-events:none}
+.hero-ring{position:absolute;top:50%;left:50%;border-radius:50%;pointer-events:none}
+.ring1{width:400px;height:400px;margin:-200px 0 0 -200px;border:1.5px solid rgba(255,255,255,.08);animation:spin 22s linear infinite}
+.ring2{width:600px;height:600px;margin:-300px 0 0 -300px;border:1px dashed rgba(255,216,77,.1);animation:spinR 30s linear infinite}
+.ring3{width:240px;height:240px;margin:-120px 0 0 -120px;border:1.5px solid rgba(255,216,77,.15);animation:spin 14s linear infinite}
+.orbit{position:absolute;top:50%;left:50%;border-radius:50%;pointer-events:none}
+.o1{width:400px;height:400px;margin:-200px 0 0 -200px;animation:orbitSpin 22s linear infinite}
+.o2{width:600px;height:600px;margin:-300px 0 0 -300px;animation:orbitSpinR 30s linear infinite}
+.o3{width:240px;height:240px;margin:-120px 0 0 -120px;animation:orbitSpin 14s linear infinite}
+.odot{position:absolute;top:0;left:50%;border-radius:50%;transform:translateX(-50%)}
+.dy{width:12px;height:12px;background:var(--y);box-shadow:0 0 10px var(--y)}
+.dw{width:8px;height:8px;background:rgba(255,255,255,.6)}
+.db{width:10px;height:10px;background:#7dd3fc;box-shadow:0 0 8px #7dd3fc}
+.hero-content{position:relative;z-index:2;max-width:520px}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);color:#fff;font-size:12px;font-weight:700;padding:5px 16px;border-radius:20px;margin-bottom:18px;animation:fadeUp .5s ease both}
+.hero-title{font-size:52px;font-weight:900;color:#fff;line-height:1.1;animation:fadeUp .5s .1s ease both}
+.ha{color:var(--y)}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.7);margin-top:14px;line-height:1.6;animation:fadeUp .5s .2s ease both}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;animation:fadeUp .5s .3s ease both}
+.chip{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700}
+.cy{background:var(--y);color:#78350f}
+.co{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);color:#fff}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;margin-top:28px;
+  padding:14px 36px;background:var(--y);color:#78350f;border:none;border-radius:32px;
+  font-size:15px;font-weight:900;cursor:pointer;position:relative;overflow:hidden;
+  animation:fadeUp .5s .4s ease both;transition:transform .15s,box-shadow .15s;
+  box-shadow:0 4px 20px rgba(245,158,11,.4);
+}
+.hero-cta:hover{transform:scale(1.04) translateY(-2px);box-shadow:0 8px 30px rgba(245,158,11,.5)}
+.cta-rip{position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.3);transform:scale(0)}
+.hero-cta:active .cta-rip{animation:ripple .4s ease-out}
+.hero-visual{position:relative;z-index:2;flex-shrink:0;animation:floatY 4s ease-in-out infinite}
+.hero-svg{width:300px;height:300px;filter:drop-shadow(0 8px 40px rgba(0,0,0,.25))}
+
+/* ===================== MAIN APP ===================== */
+.main-app{padding-top:0}
+.tab-nav-wrap{
+  background:var(--white);border-bottom:2px solid var(--bdr);
+  position:sticky;top:60px;z-index:99;
+  box-shadow:0 4px 20px rgba(0,0,0,.05);
+}
+.tab-nav{max-width:980px;margin:0 auto;padding:10px 32px;display:flex;gap:6px;overflow-x:auto}
+.tab-nav::-webkit-scrollbar{height:0}
+.tab-btn{
+  padding:8px 18px;border-radius:8px;border:1.5px solid var(--bdr);
+  font-size:12px;font-weight:800;color:var(--tm);background:var(--white);
+  cursor:pointer;white-space:nowrap;transition:all .2s;
+}
+.tab-btn:hover{border-color:var(--b);color:var(--b);background:var(--bl)}
+.tab-btn.active{background:var(--b);color:#fff;border-color:var(--b)}
+.tab-btn-soal{background:var(--p);color:#fff;border-color:var(--p)}
+.tab-btn-soal:hover{background:#6d28d9;color:#fff;border-color:#6d28d9}
+.tab-btn-soal.active{background:#6d28d9;border-color:#6d28d9}
+
+.tab-wrap{max-width:980px;margin:0 auto;padding:0 32px}
+.tab-pane{display:none;padding:40px 0}
+.tab-pane.active{display:block}
+
+/* LABELS */
+.lbl{display:inline-block;font-size:10px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:5px;margin-bottom:12px}
+.lb{background:var(--b);color:#fff}
+.ly{background:var(--y);color:#fff}
+.lg{background:var(--g);color:#fff}
+.lr{background:var(--r);color:#fff}
+.lo{background:#f97316;color:#fff}
+.lp{background:var(--p);color:#fff}
+
+.sec-title{font-size:28px;font-weight:900;color:var(--tx);margin-bottom:8px;line-height:1.2}
+.sec-title.wh{color:#fff}
+.sec-desc{font-size:14px;color:var(--tm);line-height:1.7;max-width:660px;margin-bottom:28px}
+.sec-desc.mt{color:rgba(255,255,255,.55)}
+.acc-y{color:var(--y)}
+
+/* ===================== TAB 1: UNSUR ===================== */
+.unsur-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.ucard{
+  background:var(--white);border:2px solid var(--bdr);border-radius:var(--rad);
+  padding:18px 14px 14px;position:relative;overflow:hidden;
+  cursor:pointer;transition:all .2s;text-align:center;
+}
+.ucard:hover{transform:translateY(-5px);box-shadow:var(--shl);border-color:var(--b)}
+.ucard-top{position:absolute;top:0;left:0;right:0;height:4px}
+.ucard-num{position:absolute;top:8px;right:10px;font-size:9px;font-weight:900;color:var(--tm)}
+.ucard-icon{font-size:26px;display:block;margin-bottom:8px;animation:floatY 3s ease-in-out infinite}
+.ucard-name{font-size:12px;font-weight:800;color:var(--tx);margin-bottom:2px}
+.ucard-sym{font-size:10px;color:var(--tm);font-weight:600}
+.unsur-detail{
+  background:var(--bg);border:2px solid var(--b);
+  border-radius:var(--rad);padding:20px;margin-top:4px;
+  display:none;animation:fadeUp .25s ease;
+}
+.ud-head{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.ud-icon{font-size:30px}
+.ud-name{font-size:16px;font-weight:900;color:var(--tx)}
+.ud-sub{font-size:12px;color:var(--tm)}
+.ud-close{
+  margin-left:auto;background:none;border:1.5px solid var(--bdr);
+  border-radius:6px;padding:4px 10px;cursor:pointer;color:var(--tm);
+  font-size:14px;transition:all .15s;
+}
+.ud-close:hover{background:var(--rl);border-color:var(--r);color:var(--r)}
+.ud-desc{font-size:13px;color:var(--tm);line-height:1.65;margin-bottom:12px}
+.ud-fact{
+  background:var(--white);border-left:3px solid var(--b);
+  border-radius:0 8px 8px 0;padding:9px 14px;
+  font-size:12px;font-weight:700;color:var(--tx);
+}
+
+/* ===================== TAB 2: RUMUS ===================== */
+.rumus-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.rcard{border-radius:var(--rad);padding:24px 16px;text-align:center;border:2px solid transparent;transition:transform .2s,box-shadow .2s;cursor:default}
+.rcard:hover{transform:translateY(-5px);box-shadow:var(--shl)}
+.rb{background:var(--bl);border-color:#bfdbfe}
+.ry{background:var(--yl);border-color:#fde68a}
+.rg{background:var(--gl);border-color:#a7f3d0}
+.rcard-sym{font-size:38px;font-weight:900;line-height:1;margin-bottom:4px}
+.rb .rcard-sym{color:var(--b)}.ry .rcard-sym{color:var(--yd)}.rg .rcard-sym{color:#047857}
+.rcard-name{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.rb .rcard-name{color:var(--b)}.ry .rcard-name{color:var(--yd)}.rg .rcard-name{color:#047857}
+.rcard-formula{font-size:20px;font-weight:900;margin-bottom:4px}
+.rb .rcard-formula{color:#1e3a8a}.ry .rcard-formula{color:#78350f}.rg .rcard-formula{color:#065f46}
+.rcard-desc{font-size:11px;color:var(--tm);line-height:1.5}
+
+.turunan-box{background:var(--white);border:2px solid var(--bdr);border-radius:var(--rad);padding:22px;margin-bottom:20px}
+.turunan-title{font-size:10px;font-weight:900;color:var(--tm);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
+.turunan-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tcard{background:var(--bg);border:1.5px solid var(--bdr);border-radius:var(--rads);padding:14px}
+.tcard-lbl{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.tcard-f{font-size:15px;font-weight:900;color:var(--tx);margin-bottom:4px}
+.tcard-d{font-size:11px;color:var(--tm)}
+
+.pi-box{background:linear-gradient(135deg,#1e3a8a,#1d4ed8);border-radius:var(--rad);padding:18px}
+.pi-title{font-size:11px;font-weight:900;color:var(--y);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.pi-chips{display:flex;gap:10px;flex-wrap:wrap}
+.pi-chip{background:rgba(255,255,255,.1);border-radius:8px;padding:8px 16px;text-align:center}
+.pi-chip-l{font-size:9px;color:rgba(255,255,255,.5);font-weight:700;text-transform:uppercase;margin-bottom:3px}
+.pi-chip-v{font-size:16px;font-weight:900;color:#fff}
+
+/* ===================== TAB 3: EKSPLORASI ===================== */
+.exp-box{
+  display:grid;grid-template-columns:280px 1fr;gap:24px;
+  align-items:start;background:var(--bg);border:2px solid var(--bdr);
+  border-radius:var(--rad);padding:22px;
+}
+.exp-svg-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+#circSvg{width:260px;height:260px;filter:drop-shadow(0 4px 20px rgba(37,99,235,.12))}
+.circ-badge{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  background:var(--b);color:#fff;padding:4px 14px;border-radius:20px;
+  font-size:11px;font-weight:900;white-space:nowrap;
+}
+.ep-list{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.ep-item{
+  display:flex;align-items:center;gap:9px;padding:8px 12px;
+  border-radius:var(--rads);border:1.5px solid var(--bdr);
+  background:var(--white);cursor:pointer;font-size:12px;font-weight:700;
+  color:var(--tx);transition:all .18s;user-select:none;
+}
+.ep-item:hover{border-color:var(--b);background:var(--bl);transform:translateX(3px)}
+.ep-item.done{border-color:var(--g);background:var(--gl)}
+.ep-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.ep-lbl{flex:1}
+.ep-chk{color:var(--g);font-size:13px;font-weight:900;display:none}
+.ep-item.done .ep-chk{display:block}
+.ep-prog-bar{background:var(--bdr);border-radius:6px;height:6px;overflow:hidden;margin-bottom:4px}
+.ep-prog-fill{height:100%;background:linear-gradient(90deg,var(--b),var(--g));border-radius:6px;transition:width .5s ease}
+.ep-prog-txt{font-size:11px;color:var(--tm);text-align:right;margin-bottom:8px}
+.ep-prog-txt strong{color:var(--b)}
+.ep-popup{
+  background:linear-gradient(135deg,#1e3a8a,#1d4ed8);color:#fff;
+  border-radius:var(--rads);padding:12px 14px;font-size:12px;line-height:1.55;
+  border-left:3px solid var(--y);display:none;animation:slideL .2s ease;
+}
+.ep-popup.show{display:block}
+.ep-popup-name{font-size:13px;font-weight:900;color:var(--y);margin-bottom:4px}
+.ep-popup-desc{color:rgba(255,255,255,.85)}
+
+/* ===================== TAB 4: GARIS SINGGUNG ===================== */
+.gs-dark{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 60%,#0a1640 100%);border-radius:var(--rad);padding:28px;margin-bottom:24px}
+.gs-layout{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start}
+.gs-props{display:flex;flex-direction:column;gap:12px}
+.gs-prop{
+  display:flex;gap:12px;align-items:flex-start;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:14px;transition:all .2s;
+}
+.gs-prop:hover{border-color:rgba(255,216,77,.3);background:rgba(255,255,255,.09)}
+.gs-badge{width:34px;height:34px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900}
+.bdy{background:var(--y);color:#78350f}
+.bdg{background:var(--g);color:#fff}
+.bdb{background:var(--b);color:#fff}
+.bdr2{background:var(--r);color:#fff}
+.gs-prop-t{font-size:12px;font-weight:800;color:#fff;margin-bottom:3px}
+.gs-prop-d{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5}
+.gs-visual{display:flex;flex-direction:column;gap:12px}
+.gs-svg{width:100%;max-width:300px}
+.gs-fbox{background:rgba(245,158,11,.08);border:1.5px solid var(--y);border-radius:10px;padding:16px;text-align:center}
+.gs-flbl{font-size:9px;font-weight:900;color:var(--y);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.gs-fmain{font-size:22px;font-weight:900;color:#fff;margin-bottom:8px}
+.gs-fvars{display:flex;flex-direction:column;gap:2px;font-size:11px;color:rgba(255,255,255,.5)}
+.gs-fvars strong{color:var(--y)}
+.gs-kalk{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:14px}
+.gs-kalk-t{font-size:12px;font-weight:800;color:var(--y);margin-bottom:10px}
+.gs-krow{margin-bottom:10px}
+.gs-krow label{font-size:11px;color:rgba(255,255,255,.5);display:block;margin-bottom:5px;font-weight:700}
+.gs-kslider-row{display:flex;align-items:center;gap:10px}
+.gs-kslider-row input[type=range]{flex:1;-webkit-appearance:none;height:5px;border-radius:4px;background:rgba(255,255,255,.15);outline:none;cursor:pointer}
+.gs-kslider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--y);border:2px solid rgba(255,255,255,.3);cursor:pointer}
+.gs-kval{font-size:14px;font-weight:900;color:var(--y);min-width:24px;text-align:right}
+.gs-kres{display:flex;align-items:center;justify-content:space-between;background:rgba(245,158,11,.1);border:1.5px solid rgba(245,158,11,.3);border-radius:var(--rads);padding:10px 14px;margin-top:4px;font-size:12px;color:rgba(255,255,255,.6)}
+.gs-kres strong{font-size:22px;font-weight:900;color:var(--y)}
+
+.gsp-section{margin-bottom:24px}
+.gsp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.gsp-card{border-radius:var(--rad);padding:20px;border:2px solid;transition:transform .2s,box-shadow .2s;cursor:default}
+.gsp-card:hover{transform:translateY(-4px);box-shadow:var(--shl)}
+.gsp-luar{background:var(--bl);border-color:#bfdbfe}
+.gsp-dalam{background:var(--rl);border-color:#fecaca}
+.gsp-badge{display:inline-block;padding:3px 12px;border-radius:5px;font-size:11px;font-weight:900;letter-spacing:.5px;background:var(--b);color:#fff;margin-bottom:8px}
+.gsp-badge-r{background:var(--r)}
+.gsp-name{font-size:13px;font-weight:800;color:var(--tx);margin-bottom:6px}
+.gsp-formula{font-size:16px;font-weight:900;color:var(--tx);background:var(--white);border-radius:7px;padding:7px 12px;display:inline-block;margin-bottom:8px}
+.gsp-desc{font-size:12px;color:var(--tm);line-height:1.55;margin-bottom:10px}
+.gsp-list{padding-left:16px;font-size:11px;color:var(--tm);line-height:1.8}
+
+.sudut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.sudut-card{background:var(--white);border:2px solid var(--bdr);border-radius:var(--rad);padding:18px;transition:all .2s}
+.sudut-card:hover{border-color:var(--b);box-shadow:var(--sh);transform:translateY(-3px)}
+.sudut-icon{font-size:24px;font-weight:900;margin-bottom:8px;line-height:1}
+.sudut-t{font-size:12px;font-weight:800;color:var(--tx);margin-bottom:6px}
+.sudut-f{font-size:13px;font-weight:900;color:var(--b);background:var(--bl);border-radius:6px;padding:5px 10px;display:inline-block;margin-bottom:8px}
+.sudut-d{font-size:11px;color:var(--tm);line-height:1.55}
+.sm-title{font-size:20px;font-weight:900;color:var(--tx);margin-bottom:16px;line-height:1.2}
+
+/* ===================== TAB 5: SOAL ===================== */
+.quiz-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.quiz-meta{display:flex;align-items:center;gap:10px}
+.quiz-badge{background:var(--p);color:#fff;font-size:10px;font-weight:900;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+.quiz-num{font-size:12px;color:var(--tm);font-weight:700}
+.score-box{background:var(--bg);border:1.5px solid var(--bdr);border-radius:10px;padding:6px 16px;display:flex;align-items:baseline;gap:5px}
+.score-lbl{font-size:10px;color:var(--tm);font-weight:700;text-transform:uppercase}
+.score-val{font-size:22px;font-weight:900;color:var(--p)}
+
+.qdots{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap}
+.qdot{height:6px;border-radius:3px;background:var(--bdr);transition:all .3s;flex:1;min-width:18px}
+.qdot.qc{background:var(--g)}
+.qdot.qw{background:var(--r)}
+.qdot.qa{background:var(--p)}
+
+.timer-wrap{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.timer-bar{flex:1;height:5px;background:var(--bdr);border-radius:4px;overflow:hidden}
+.timer-fill{height:100%;background:var(--p);border-radius:4px;transition:width .1s linear}
+.timer-num{font-size:13px;font-weight:900;color:var(--p);min-width:20px;text-align:right}
+
+.q-card{background:var(--bg);border:1.5px solid var(--bdr);border-radius:var(--rad);padding:20px;margin-bottom:14px}
+.q-type{display:inline-block;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px;background:var(--white);border:1.5px solid var(--bdr);color:var(--tm);margin-bottom:10px}
+.q-text{font-size:15px;font-weight:700;color:var(--tx);line-height:1.55}
+.q-formula{display:inline-block;background:var(--pl);border:1.5px solid #c4b5fd;border-radius:7px;padding:6px 14px;font-size:14px;font-weight:800;color:var(--p);margin-top:10px}
+
+.opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.opt{
+  background:var(--white);border:1.5px solid var(--bdr);border-radius:10px;
+  padding:12px 14px;font-size:13px;font-weight:700;color:var(--tx);
+  cursor:pointer;text-align:left;transition:all .15s;font-family:var(--f);
+  display:flex;align-items:center;
+}
+.opt:hover:not(.dis){border-color:var(--p);background:var(--pl);color:#4c1d95}
+.opt.cor{border-color:var(--g);background:var(--gl);color:#065f46}
+.opt.wrg{border-color:var(--r);background:var(--rl);color:#991b1b;animation:shake .4s ease}
+.opt.dis{cursor:not-allowed;pointer-events:none}
+.opt-lt{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:var(--bg);font-size:11px;font-weight:900;margin-right:9px;flex-shrink:0}
+
+.fb-box{border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.55;margin-bottom:12px;display:none;animation:fadeUp .25s ease}
+.fb-box.show{display:block}
+.fb-ok{background:var(--gl);border-left:3px solid var(--g);color:#065f46}
+.fb-no{background:var(--rl);border-left:3px solid var(--r);color:#991b1b}
+.fb-to{background:var(--yl);border-left:3px solid var(--y);color:#78350f}
+.fb-t{font-weight:900;margin-bottom:3px;font-size:14px}
+.fb-d{font-size:12px}
+
+.next-btn{display:block;width:100%;padding:13px;background:var(--p);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:900;cursor:pointer;transition:all .15s}
+.next-btn:hover:not(:disabled){background:#6d28d9;transform:translateY(-1px)}
+.next-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* RESULT */
+.result-screen{text-align:center;padding:20px 0;animation:fadeUp .4s ease;display:none}
+.result-screen.show{display:block}
+.res-trophy{font-size:72px;margin-bottom:12px;animation:bounce 1.2s ease-in-out infinite;display:block}
+.res-stars{font-size:36px;letter-spacing:5px;margin-bottom:14px}
+.res-stars span{display:inline-block;animation:starPop .4s ease both}
+.res-stars span:nth-child(1){animation-delay:.1s}
+.res-stars span:nth-child(2){animation-delay:.25s}
+.res-stars span:nth-child(3){animation-delay:.4s}
+.res-title{font-size:26px;font-weight:900;color:var(--tx);margin-bottom:6px}
+.res-sub{font-size:14px;color:var(--tm);margin-bottom:18px}
+.res-score{font-size:60px;font-weight:900;color:var(--p);line-height:1;margin-bottom:4px;animation:bounceIn .5s ease}
+.res-max{font-size:13px;color:var(--tm);margin-bottom:18px}
+.res-perfect{background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:var(--rad);padding:16px 20px;margin-bottom:18px;color:#fff;animation:glow 2s ease-in-out infinite}
+.res-perfect-t{font-size:16px;font-weight:900;margin-bottom:4px}
+.res-perfect-d{font-size:12px;opacity:.8}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.rstat{background:var(--bg);border:1.5px solid var(--bdr);border-radius:10px;padding:14px 10px}
+.rstat-v{font-size:28px;font-weight:900;line-height:1;margin-bottom:4px}
+.rstat-v.gn{color:var(--g)}.rstat-v.rd{color:var(--r)}.rstat-v.bl{color:var(--b)}
+.rstat-l{font-size:10px;color:var(--tm);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.res-bkd{text-align:left;background:var(--bg);border:1.5px solid var(--bdr);border-radius:var(--rad);padding:16px;margin-bottom:18px}
+.rb-ttl{font-size:10px;font-weight:900;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.rb-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-top:1px solid var(--bdr);font-size:12px}
+.rb-item:first-of-type{border-top:none}
+.rb-num{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
+.rb-num.c{background:var(--gl);color:#065f46}.rb-num.w{background:var(--rl);color:#991b1b}
+.rb-q{flex:1;color:var(--tm);line-height:1.4}
+.rb-a{font-weight:800;font-size:11px;flex-shrink:0}
+.rb-a.c{color:var(--g)}.rb-a.w{color:var(--r)}
+.res-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.res-btn{padding:12px 28px;background:var(--p);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:900;cursor:pointer;transition:all .15s}
+.res-btn:hover{background:#6d28d9;transform:translateY(-1px)}
+.res-btn-o{background:transparent;border:2px solid var(--p);color:var(--p)}
+.res-btn-o:hover{background:var(--p);color:#fff}
+
+/* CONFETTI */
+.conf-wrap{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:9999;overflow:hidden}
+.cc{position:absolute;border-radius:2px;animation:confetti linear forwards}
+
+/* FOOTER */
+.footer{background:var(--dark);padding:24px 32px;margin-top:0}
+.footer-in{max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.footer-logo{font-size:14px;font-weight:800;color:var(--y)}
+.footer-txt{font-size:12px;color:rgba(255,255,255,.4)}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:768px){
+  .hero{flex-direction:column;padding:90px 24px 50px;text-align:center}
+  .hero-visual{display:none}
+  .hero-title{font-size:34px}
+  .hero-chips{justify-content:center}
+  .nav-links{display:none;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:var(--bd);padding:12px;gap:6px;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:998}
+  .nav-links.open{display:flex}
+  .hamburger{display:flex}
+  .tab-nav{padding:8px 16px}
+  .tab-btn{padding:7px 12px;font-size:11px}
+  .tab-wrap{padding:0 16px}
+  .unsur-grid{grid-template-columns:repeat(2,1fr)}
+  .rumus-row{grid-template-columns:1fr}
+  .turunan-grid{grid-template-columns:1fr}
+  .exp-box{grid-template-columns:1fr}
+  .gs-layout{grid-template-columns:1fr}
+  .gsp-grid{grid-template-columns:1fr}
+  .sudut-grid{grid-template-columns:1fr}
+  .opts-grid{grid-template-columns:1fr}
+  .res-stats{grid-template-columns:repeat(3,1fr)}
+  .res-btns{flex-direction:column;align-items:center}
+  .tab-pane{padding:28px 0}
+}
+</style>
 </head>
 <body>
-<div class="page">
 
-<!-- ==================== HERO ==================== -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-badge">📐 Matematika · Kelas XI</div>
-      <h1 class="hero-title">Lingkaran &amp;<br><span class="hero-accent">Garis Singgung</span></h1>
-      <p class="hero-sub">Eksplorasi interaktif · 8 unsur · 3 rumus · Garis singgung lengkap</p>
-      <div class="hero-chips">
-        <span class="chip chip-y">8 Unsur Lingkaran</span>
-        <span class="chip chip-o">Rumus Dasar</span>
-        <span class="chip chip-o">Garis Singgung</span>
-        <span class="chip chip-o">Latihan Soal</span>
-      </div>
-    </div>
-    <div class="hero-orb">
-      <svg viewBox="0 0 190 190" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="95" cy="95" r="88" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="4 4"/>
-        <circle cx="95" cy="95" r="65" fill="rgba(37,99,235,.22)" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
-        <circle cx="95" cy="95" r="65" fill="url(#cGrad)" stroke="none"/>
-        <defs>
-          <radialGradient id="cGrad" cx="40%" cy="35%" r="60%">
-            <stop offset="0%" stop-color="rgba(255,255,255,.08)"/>
-            <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-          </radialGradient>
-        </defs>
-        <line x1="30" y1="95" x2="160" y2="95" stroke="rgba(251,191,36,.4)" stroke-dasharray="5 3" stroke-width="1.2"/>
-        <line x1="95" y1="95" x2="95" y2="30" stroke="rgba(255,255,255,.75)" stroke-width="1.8"/>
-        <path d="M95 30 A65 65 0 0 1 152 65" fill="none" stroke="#fbbf24" stroke-width="3.5" stroke-linecap="round"/>
-        <circle cx="95" cy="95" r="5.5" fill="#fbbf24"/>
-        <rect x="92" y="92" width="6" height="6" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/>
-        <text x="101" y="91" fill="rgba(255,255,255,.95)" font-size="12" font-weight="800" font-family="Plus Jakarta Sans,sans-serif">O</text>
-        <text x="87" y="107" fill="rgba(255,255,255,.5)" font-size="9" font-family="Plus Jakarta Sans,sans-serif">r</text>
-        <text x="150" y="93" fill="rgba(251,191,36,.7)" font-size="9" font-family="Plus Jakarta Sans,sans-serif">d</text>
-        <circle cx="95" cy="30" r="3" fill="rgba(255,255,255,.7)"/>
-        <circle cx="152" cy="65" r="3" fill="#fbbf24"/>
-      </svg>
-    </div>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">◉</div>
+    <span><em>Lingkaran</em> &amp; Garis Singgung</span>
   </div>
-</div>
-
-<!-- ==================== NAV TABS ==================== -->
-<div class="nav-tabs">
-  <button class="tab active" onclick="showTab('t-unsur',this)">
-    <span class="tab-icon">🔵</span>Unsur Lingkaran
+  <div class="nav-links" id="navLinks">
+    <button class="nav-link active" onclick="switchTab('t-unsur',this)">Unsur</button>
+    <button class="nav-link" onclick="switchTab('t-rumus',this)">Rumus</button>
+    <button class="nav-link" onclick="switchTab('t-eksplorasi',this)">Eksplorasi</button>
+    <button class="nav-link" onclick="switchTab('t-gs',this)">Garis Singgung</button>
+    <button class="nav-link nav-link-soal" onclick="switchTab('t-soal',this)">📝 Latihan Soal</button>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
   </button>
-  <button class="tab" onclick="showTab('t-rumus',this)">
-    <span class="tab-icon">📐</span>Rumus Dasar
-  </button>
-  <button class="tab" onclick="showTab('t-eksplorasi',this)">
-    <span class="tab-icon">🔍</span>Eksplorasi
-  </button>
-  <button class="tab" onclick="showTab('t-gs',this)">
-    <span class="tab-icon">📏</span>Garis Singgung
-  </button>
-  <button class="tab" onclick="showTab('t-soal',this)">
-    <span class="tab-icon">✏️</span>Latihan Soal
-  </button>
-</div>
+</nav>
 
-<!-- ==================== TAB 1: UNSUR ==================== -->
-<div class="section show" id="t-unsur">
-  <span class="slabel slabel-b">Materi 1</span>
-  <h2 class="stitle">8 Unsur Lingkaran</h2>
-  <p class="sdesc">Lingkaran adalah himpunan semua titik yang berjarak sama dari satu titik pusat. Klik kartu untuk tahu lebih lanjut.</p>
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-ring ring1"></div>
+  <div class="hero-ring ring2"></div>
+  <div class="hero-ring ring3"></div>
+  <div class="orbit o1"><div class="odot dy"></div></div>
+  <div class="orbit o2"><div class="odot dw"></div></div>
+  <div class="orbit o3"><div class="odot db"></div></div>
+  <div class="hero-content">
+    <div class="hero-badge">📐 Matematika Kelas XI</div>
+    <h1 class="hero-title">Lingkaran &amp;<br/><span class="ha">Garis Singgung</span></h1>
+    <p class="hero-sub">Belajar interaktif · Eksplorasi visual · 10 Soal Latihan · Animasi kemenangan</p>
+    <div class="hero-chips">
+      <div class="chip cy">8 Unsur Lingkaran</div>
+      <div class="chip co">Rumus Dasar</div>
+      <div class="chip co">Garis Singgung</div>
+      <div class="chip co">10 Soal Latihan</div>
+    </div>
+    <button class="hero-cta" onclick="scrollToApp()">
+      <span>▶ Mulai Belajar</span>
+      <div class="cta-rip"></div>
+    </button>
+  </div>
+  <div class="hero-visual">
+    <svg class="hero-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer decorative ring -->
+      <circle cx="150" cy="150" r="120" fill="none" stroke="rgba(255,216,77,.15)" stroke-width="1" stroke-dasharray="5 4"/>
+      <!-- Main circle -->
+      <circle cx="150" cy="150" r="95" fill="rgba(45,91,227,.18)" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+      <!-- Diameter (horizontal, full width of circle) -->
+      <line x1="55" y1="150" x2="245" y2="150" stroke="rgba(255,216,77,.55)" stroke-width="1.5" stroke-dasharray="6 3"/>
+      <!-- Tali busur: from top of circle (150,55) to right of circle (245,150) — both exactly on circumference -->
+      <line x1="150" y1="55" x2="245" y2="150" stroke="rgba(255,255,255,.65)" stroke-width="2"/>
+      <!-- Jari-jari: from center to top of circle -->
+      <line x1="150" y1="150" x2="150" y2="55" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <!-- Busur: arc from top (150,55) to rightmost (245,150) -->
+      <path d="M150 55 A95 95 0 0 1 245 150" fill="none" stroke="#FFD84D" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- Right angle marker at center -->
+      <rect x="150" y="142" width="8" height="8" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1"/>
+      <!-- Center point -->
+      <circle cx="150" cy="150" r="5" fill="#FFD84D"/>
+      <!-- Labels -->
+      <text x="158" y="146" fill="rgba(255,255,255,.95)" font-size="13" font-weight="700" font-family="Nunito">O</text>
+      <text x="155" y="105" fill="rgba(255,255,255,.7)" font-size="11" font-weight="700" font-family="Nunito">r</text>
+      <text x="207" y="102" fill="#FFD84D" font-size="10" font-weight="700" font-family="Nunito">busur</text>
+      <text x="155" y="170" fill="rgba(255,255,255,.6)" font-size="10" font-family="Nunito">d = 2r</text>
+      <!-- Tali busur label -->
+      <text x="193" y="93" fill="rgba(255,255,255,.55)" font-size="9" font-family="Nunito">tali busur</text>
+    </svg>
+  </div>
+</section>
 
-  <div class="unsur-grid" id="unsurGrid">
-    <div class="ucard" onclick="showUnsur(0)" style="border-top:3px solid #2563eb">
-      <span class="ucard-num">01</span><span class="ucard-icon">🎯</span>
-      <div class="ucard-name">Titik Pusat</div><div class="ucard-short">(O)</div>
-      <div class="ucard-bar" style="background:#2563eb"></div>
-    </div>
-    <div class="ucard" onclick="showUnsur(1)" style="border-top:3px solid #f59e0b">
-      <span class="ucard-num">02</span><span class="ucard-icon">📏</span>
-      <div class="ucard-name">Jari-jari</div><div class="ucard-short">(r)</div>
-      <div class="ucard-bar" style="background:#f59e0b"></div>
-    </div>
-    <div class="ucard" onclick="showUnsur(2)" style="border-top:3px solid #10b981">
-      <span class="ucard-num">03</span><span class="ucard-icon">↔️</span>
-      <div class="ucard-name">Diameter</div><div class="ucard-short">(d = 2r)</div>
-      <div class="ucard-bar" style="background:#10b981"></div>
-    </div>
-    <div class="ucard" onclick="showUnsur(3)" style="border-top:3px solid #ef4444">
-      <span class="ucard-num">04</span><span class="ucard-icon">〰️</span>
-      <div class="ucard-name">Busur</div><div class="ucard-short">Bagian keliling</div>
-      <div class="ucard-bar" style="background:#ef4444"></div>
-    </div>
-    <div class="ucard" onclick="showUnsur(4)" style="border-top:3px solid #8b5cf6">
-      <span class="ucard-num">05</span><span class="ucard-icon">📐</span>
-      <div class="ucard-name">Tali Busur</div><div class="ucard-short">Garis di tepi</div>
-      <div class="ucard-bar" style="background:#8b5cf6"></div>
-    </div>
-    <div class="ucard" onclick="showUnsur(5)" style="border-top:3px solid #06b6d4">
-      <span class="ucard-num">06</span><span class="ucard-icon">🌙</span>
-      <div class="ucard-name">Tembereng</div><div class="ucard-short">Daerah busur sabit</div>
-      <div class="ucard-bar" style="background:#06b6d4"></div>
-    </div>
-    <div class="ucard" onclick="showUnsur(6)" style="border-top:3px solid #ec4899">
-      <span class="ucard-num">07</span><span class="ucard-icon">🍕</span>
-      <div class="ucard-name">Juring</div><div class="ucard-short">Potongan pizza</div>
-      <div class="ucard-bar" style="background:#ec4899"></div>
-    </div>
-    <div class="ucard" onclick="showUnsur(7)" style="border-top:3px solid #607d8b">
-      <span class="ucard-num">08</span><span class="ucard-icon">⊥</span>
-      <div class="ucard-name">Apotema</div><div class="ucard-short">Jarak ke tali busur</div>
-      <div class="ucard-bar" style="background:#607d8b"></div>
+<!-- MAIN APP -->
+<div class="main-app" id="mainApp">
+  <div class="tab-nav-wrap">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('t-unsur',this)">🔵 Unsur Lingkaran</button>
+      <button class="tab-btn" onclick="switchTab('t-rumus',this)">📐 Rumus Dasar</button>
+      <button class="tab-btn" onclick="switchTab('t-eksplorasi',this)">🔍 Eksplorasi</button>
+      <button class="tab-btn" onclick="switchTab('t-gs',this)">📏 Garis Singgung</button>
+      <button class="tab-btn tab-btn-soal" onclick="switchTab('t-soal',this)">📝 Latihan Soal</button>
     </div>
   </div>
 
-  <div class="unsur-detail" id="unsurDetail">
-    <div class="ud-head">
-      <div class="ud-icon" id="udIcon"></div>
-      <div><div class="ud-name" id="udName"></div><div class="ud-sub" id="udSub"></div></div>
-    </div>
-    <p class="ud-desc" id="udDesc"></p>
-    <div class="ud-fact" id="udFact"></div>
-  </div>
-</div>
+  <div class="tab-wrap">
 
-<!-- ==================== TAB 2: RUMUS ==================== -->
-<div class="section" id="t-rumus">
-  <span class="slabel slabel-y">Rumus Dasar</span>
-  <h2 class="stitle">3 Rumus Wajib Lingkaran</h2>
-  <p class="sdesc">Semua rumus berpangkal dari <strong>jari-jari (r)</strong>. Kuasai ini, soal apapun bisa diselesaikan.</p>
-
-  <div class="rumus-grid">
-    <div class="rcard rcard-b">
-      <div class="rcard-name">Diameter</div>
-      <div class="rcard-sym">d</div>
-      <div class="rcard-formula">d = 2r</div>
-      <div class="rcard-desc">Dua kali jari-jari, tali busur terpanjang yang lewat pusat.</div>
-    </div>
-    <div class="rcard rcard-y">
-      <div class="rcard-name">Keliling</div>
-      <div class="rcard-sym">K</div>
-      <div class="rcard-formula">K = 2πr</div>
-      <div class="rcard-desc">Total panjang garis tepi lingkaran.</div>
-    </div>
-    <div class="rcard rcard-g">
-      <div class="rcard-name">Luas</div>
-      <div class="rcard-sym">L</div>
-      <div class="rcard-formula">L = πr²</div>
-      <div class="rcard-desc">Luas seluruh daerah dalam lingkaran.</div>
-    </div>
-  </div>
-
-  <div class="rumus-extra">
-    <div class="rumus-extra-title">Rumus Turunan Lainnya</div>
-    <div class="rumus-extra-grid">
-      <div class="rext-card">
-        <div class="rext-label" style="color:#8b5cf6">Panjang Busur</div>
-        <div class="rext-formula">l = (α/360°) × 2πr</div>
-        <div class="rext-sub">α = sudut pusat (derajat)</div>
+    <!-- ===== TAB 1: UNSUR ===== -->
+    <div class="tab-pane active" id="t-unsur">
+      <span class="lbl lb">Materi 1</span>
+      <h2 class="sec-title">8 Unsur Lingkaran</h2>
+      <p class="sec-desc">Lingkaran adalah himpunan semua titik yang berjarak sama dari satu titik pusat (O). Klik kartu untuk penjelasan lengkap!</p>
+      <div class="unsur-grid">
+        <div class="ucard reveal" style="--delay:.05s" onclick="showUnsur(0)"><div class="ucard-top" style="background:#2563eb"></div><div class="ucard-num">01</div><div class="ucard-icon">🎯</div><div class="ucard-name">Titik Pusat</div><div class="ucard-sym">(O)</div></div>
+        <div class="ucard reveal" style="--delay:.1s" onclick="showUnsur(1)"><div class="ucard-top" style="background:#f59e0b"></div><div class="ucard-num">02</div><div class="ucard-icon">📏</div><div class="ucard-name">Jari-jari</div><div class="ucard-sym">(r)</div></div>
+        <div class="ucard reveal" style="--delay:.15s" onclick="showUnsur(2)"><div class="ucard-top" style="background:#10b981"></div><div class="ucard-num">03</div><div class="ucard-icon">↔️</div><div class="ucard-name">Diameter</div><div class="ucard-sym">d = 2r</div></div>
+        <div class="ucard reveal" style="--delay:.2s" onclick="showUnsur(3)"><div class="ucard-top" style="background:#ef4444"></div><div class="ucard-num">04</div><div class="ucard-icon">〰️</div><div class="ucard-name">Busur</div><div class="ucard-sym">Bagian keliling</div></div>
+        <div class="ucard reveal" style="--delay:.25s" onclick="showUnsur(4)"><div class="ucard-top" style="background:#8b5cf6"></div><div class="ucard-num">05</div><div class="ucard-icon">📐</div><div class="ucard-name">Tali Busur</div><div class="ucard-sym">Garis di tepi</div></div>
+        <div class="ucard reveal" style="--delay:.3s" onclick="showUnsur(5)"><div class="ucard-top" style="background:#06b6d4"></div><div class="ucard-num">06</div><div class="ucard-icon">🌙</div><div class="ucard-name">Tembereng</div><div class="ucard-sym">Sabit lingkaran</div></div>
+        <div class="ucard reveal" style="--delay:.35s" onclick="showUnsur(6)"><div class="ucard-top" style="background:#ec4899"></div><div class="ucard-num">07</div><div class="ucard-icon">🍕</div><div class="ucard-name">Juring</div><div class="ucard-sym">Potongan pizza</div></div>
+        <div class="ucard reveal" style="--delay:.4s" onclick="showUnsur(7)"><div class="ucard-top" style="background:#607d8b"></div><div class="ucard-num">08</div><div class="ucard-icon">⊥</div><div class="ucard-name">Apotema</div><div class="ucard-sym">Jarak ke tali busur</div></div>
       </div>
-      <div class="rext-card">
-        <div class="rext-label" style="color:#ec4899">Luas Juring</div>
-        <div class="rext-formula">L = (α/360°) × πr²</div>
-        <div class="rext-sub">Proporsional terhadap sudut</div>
-      </div>
-      <div class="rext-card">
-        <div class="rext-label" style="color:#06b6d4">Luas Tembereng</div>
-        <div class="rext-formula">L = L.juring − L.segitiga</div>
-        <div class="rext-sub">Juring dikurangi segitiga</div>
-      </div>
-      <div class="rext-card">
-        <div class="rext-label" style="color:#f59e0b">Apotema</div>
-        <div class="rext-formula">a = √(r² − (½l)²)</div>
-        <div class="rext-sub">l = panjang tali busur</div>
+      <div class="unsur-detail" id="unsurDetail">
+        <div class="ud-head">
+          <span class="ud-icon" id="udIcon"></span>
+          <div><div class="ud-name" id="udName"></div><div class="ud-sub" id="udSub"></div></div>
+          <button class="ud-close" onclick="document.getElementById('unsurDetail').style.display='none'">✕ Tutup</button>
+        </div>
+        <p class="ud-desc" id="udDesc"></p>
+        <div class="ud-fact" id="udFact"></div>
       </div>
     </div>
-  </div>
 
-  <div class="pi-box">
-    <div class="pi-title">Nilai π (Pi)</div>
-    <div class="pi-cards">
-      <div class="pi-card"><div class="pi-lbl">Tepat</div><div class="pi-val">π ≈ 3.14159…</div></div>
-      <div class="pi-card"><div class="pi-lbl">Pecahan</div><div class="pi-val">π ≈ ²²/₇</div></div>
-      <div class="pi-card"><div class="pi-lbl">Di soal</div><div class="pi-val">π = 3.14</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ==================== TAB 3: EKSPLORASI ==================== -->
-<div class="section" id="t-eksplorasi">
-  <span class="slabel slabel-g">Interaktif</span>
-  <h2 class="stitle">Eksplorasi Bagian Lingkaran</h2>
-  <p class="sdesc">Klik setiap nama di panel kanan — bagian yang dipilih akan menyala di gambar beserta penjelasan lengkapnya!</p>
-  <div class="exp-wrap">
-    <div>
-      <svg id="expSvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="100" r="75" fill="#eef4ff" stroke="#93c5fd" stroke-width="2"/>
-        <path id="eJuring"    d="M100 100 L100 25 A75 75 0 0 1 175 100 Z" fill="rgba(236,72,153,0.12)" stroke="none"/>
-        <path id="eTembereng" d="M100 25 A75 75 0 0 1 175 100 L100 25 Z"  fill="rgba(6,182,212,0.2)"  stroke="none"/>
-        <line id="eDiameter"  x1="25"  y1="100" x2="175" y2="100" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 3"/>
-        <line id="eRadius"    x1="100" y1="100" x2="100" y2="25"  stroke="#cbd5e1" stroke-width="2"/>
-        <line id="eTaliBusur" x1="100" y1="25"  x2="175" y2="100" stroke="#cbd5e1" stroke-width="2"/>
-        <path id="eBusur"     d="M100 25 A75 75 0 0 1 175 100" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
-        <line id="eApotema"   x1="100" y1="100" x2="137.5" y2="62.5" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 3"/>
-        <rect id="eApotemaRect" x="133" y="59" width="7" height="7" fill="none" stroke="#cbd5e1" stroke-width="1"/>
-        <circle id="eCenter" cx="100" cy="100" r="5" fill="#3b82f6"/>
-        <text x="107" y="96"  fill="#3b82f6" font-size="11" font-weight="800" font-family="Plus Jakarta Sans,sans-serif">O</text>
-        <text x="92"  y="113" fill="#94a3b8" font-size="8"  font-family="Plus Jakarta Sans,sans-serif">r</text>
-      </svg>
-    </div>
-    <div>
-      <div class="exp-list">
-        <div class="ep-item" data-id="eCenter"    data-color="#3b82f6" data-name="Titik Pusat (O)" data-desc="Titik tetap di tengah lingkaran. Semua titik di tepi memiliki jarak yang sama = r dari titik ini." onclick="selectEP(this)">
-          <div class="ep-dot" style="background:#3b82f6"></div><span>Titik Pusat (O)</span><span class="ep-chk">✓</span>
-        </div>
-        <div class="ep-item" data-id="eRadius"    data-color="#f59e0b" data-name="Jari-jari (r)"   data-desc="Ruas garis dari titik pusat ke titik manapun di tepi lingkaran. Panjangnya selalu sama ke semua arah." onclick="selectEP(this)">
-          <div class="ep-dot" style="background:#f59e0b"></div><span>Jari-jari (r)</span><span class="ep-chk">✓</span>
-        </div>
-        <div class="ep-item" data-id="eDiameter"  data-color="#10b981" data-name="Diameter (d)"    data-desc="Tali busur yang melewati titik pusat. Nilainya d = 2r. Diameter adalah tali busur TERPANJANG." onclick="selectEP(this)">
-          <div class="ep-dot" style="background:#10b981"></div><span>Diameter (d)</span><span class="ep-chk">✓</span>
-        </div>
-        <div class="ep-item" data-id="eBusur"     data-color="#ef4444" data-name="Busur"           data-desc="Bagian dari keliling lingkaran — garis melengkung yang menghubungkan dua titik di tepi." onclick="selectEP(this)">
-          <div class="ep-dot" style="background:#ef4444"></div><span>Busur</span><span class="ep-chk">✓</span>
-        </div>
-        <div class="ep-item" data-id="eTaliBusur" data-color="#8b5cf6" data-name="Tali Busur"      data-desc="Ruas garis lurus yang menghubungkan dua titik di tepi, tapi TIDAK melewati pusat." onclick="selectEP(this)">
-          <div class="ep-dot" style="background:#8b5cf6"></div><span>Tali Busur</span><span class="ep-chk">✓</span>
-        </div>
-        <div class="ep-item" data-id="eTembereng" data-color="#06b6d4" data-name="Tembereng"       data-desc="Daerah yang dibatasi oleh tali busur dan busur lingkaran. Bentuknya seperti bulan sabit." onclick="selectEP(this)">
-          <div class="ep-dot" style="background:#06b6d4"></div><span>Tembereng</span><span class="ep-chk">✓</span>
-        </div>
-        <div class="ep-item" data-id="eJuring"    data-color="#ec4899" data-name="Juring"          data-desc="Daerah seperti potongan pizza — dibatasi dua jari-jari dan busur di antaranya." onclick="selectEP(this)">
-          <div class="ep-dot" style="background:#ec4899"></div><span>Juring</span><span class="ep-chk">✓</span>
-        </div>
-        <div class="ep-item" data-id="eApotema"   data-color="#607d8b" data-name="Apotema"         data-desc="Jarak terpendek dari titik pusat ke tali busur. Selalu tegak lurus (90°) terhadap tali busur." onclick="selectEP(this)">
-          <div class="ep-dot" style="background:#607d8b"></div><span>Apotema</span><span class="ep-chk">✓</span>
+    <!-- ===== TAB 2: RUMUS ===== -->
+    <div class="tab-pane" id="t-rumus">
+      <span class="lbl ly">Rumus Dasar</span>
+      <h2 class="sec-title">3 Rumus Wajib Lingkaran</h2>
+      <p class="sec-desc">Semua rumus berpangkal dari <strong>jari-jari (r)</strong>. Kuasai ini, soal apapun bisa diselesaikan.</p>
+      <div class="rumus-row">
+        <div class="rcard rb reveal" style="--delay:.05s"><div class="rcard-sym">d</div><div class="rcard-name">Diameter</div><div class="rcard-formula">d = 2r</div><div class="rcard-desc">Tali busur terpanjang yang melewati titik pusat lingkaran.</div></div>
+        <div class="rcard ry reveal" style="--delay:.1s"><div class="rcard-sym">K</div><div class="rcard-name">Keliling</div><div class="rcard-formula">K = 2πr</div><div class="rcard-desc">Total panjang garis tepi (keliling) lingkaran.</div></div>
+        <div class="rcard rg reveal" style="--delay:.15s"><div class="rcard-sym">L</div><div class="rcard-name">Luas</div><div class="rcard-formula">L = πr²</div><div class="rcard-desc">Luas seluruh daerah di dalam lingkaran.</div></div>
+      </div>
+      <div class="turunan-box reveal" style="--delay:.2s">
+        <div class="turunan-title">Rumus Turunan Lainnya</div>
+        <div class="turunan-grid">
+          <div class="tcard"><div class="tcard-lbl" style="color:#8b5cf6">Panjang Busur</div><div class="tcard-f">l = (α/360°) × 2πr</div><div class="tcard-d">α = besar sudut pusat (derajat)</div></div>
+          <div class="tcard"><div class="tcard-lbl" style="color:#ec4899">Luas Juring</div><div class="tcard-f">L = (α/360°) × πr²</div><div class="tcard-d">Proporsional terhadap sudut pusat α</div></div>
+          <div class="tcard"><div class="tcard-lbl" style="color:#06b6d4">Luas Tembereng</div><div class="tcard-f">L = L.juring − L.segitiga</div><div class="tcard-d">Luas juring dikurangi segitiga pusatnya</div></div>
+          <div class="tcard"><div class="tcard-lbl" style="color:#f59e0b">Apotema</div><div class="tcard-f">a = √(r² − (l/2)²)</div><div class="tcard-d">l = panjang tali busur</div></div>
         </div>
       </div>
-      <div class="ep-prog-bar"><div class="ep-prog-fill" id="epFill"></div></div>
-      <div class="ep-prog-text">Ditemukan: <strong id="epCnt" style="color:#2563eb">0</strong>/8 bagian</div>
-      <div class="ep-popup" id="epPopup">
-        <div class="ep-popup-name" id="epName"></div>
-        <div class="ep-popup-desc" id="epDesc"></div>
+      <div class="pi-box reveal" style="--delay:.25s">
+        <div class="pi-title">Nilai π (Pi) yang Digunakan</div>
+        <div class="pi-chips">
+          <div class="pi-chip"><div class="pi-chip-l">Nilai Tepat</div><div class="pi-chip-v">3.14159…</div></div>
+          <div class="pi-chip"><div class="pi-chip-l">Pecahan</div><div class="pi-chip-v">²²⁄₇</div></div>
+          <div class="pi-chip"><div class="pi-chip-l">Di Soal Biasanya</div><div class="pi-chip-v">3.14 atau ²²⁄₇</div></div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- ==================== TAB 4: GARIS SINGGUNG ==================== -->
-<div class="section" id="t-gs">
-  <div class="gs-dark">
-    <span class="slabel slabel-p" style="margin-bottom:12px;display:inline-block">Materi 2</span>
-    <h2 class="stitle" style="color:#fff">Garis Singgung Lingkaran</h2>
-    <p class="sdesc" style="color:rgba(255,255,255,.55)">Garis yang menyentuh lingkaran di <strong style="color:#fbbf24">tepat satu titik</strong> tanpa memotongnya. Titik itu disebut <strong style="color:#fbbf24">titik singgung</strong>.</p>
-    <div class="gs-layout">
+    <!-- ===== TAB 3: EKSPLORASI ===== -->
+    <div class="tab-pane" id="t-eksplorasi">
+      <span class="lbl lg">Interaktif</span>
+      <h2 class="sec-title">Eksplorasi Bagian Lingkaran</h2>
+      <p class="sec-desc">Klik setiap nama di panel kanan — bagian yang dipilih akan menyala di gambar beserta penjelasan lengkapnya!</p>
+      <div class="exp-box">
+        <div class="exp-svg-wrap">
+          <svg id="circSvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="80" fill="#f0f4ff" stroke="#93c5fd" stroke-width="2"/>
+            <path id="svgJuring" d="M100 100 L100 20 A80 80 0 0 1 180 100 Z" fill="rgba(236,72,153,.1)" stroke="none"/>
+            <path id="svgTembereng" d="M100 20 A80 80 0 0 1 180 100 L100 20 Z" fill="rgba(6,182,212,.15)" stroke="none"/>
+            <line id="svgDiameter" x1="20" y1="100" x2="180" y2="100" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 3"/>
+            <line id="svgRadius" x1="100" y1="100" x2="100" y2="20" stroke="#cbd5e1" stroke-width="2"/>
+            <line id="svgTaliBusur" x1="100" y1="20" x2="180" y2="100" stroke="#cbd5e1" stroke-width="2"/>
+            <path id="svgBusur" d="M100 20 A80 80 0 0 1 180 100" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+            <line id="svgApotema" x1="100" y1="100" x2="140" y2="60" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <rect id="svgApotemaRect" x="136" y="56" width="8" height="8" fill="none" stroke="#cbd5e1" stroke-width="1"/>
+            <circle id="svgCenter" cx="100" cy="100" r="5.5" fill="#2563eb"/>
+            <text x="108" y="96" fill="#2563eb" font-size="13" font-weight="800" font-family="Nunito,sans-serif">O</text>
+          </svg>
+          <div class="circ-badge" id="foundBadge">0/8 bagian ditemukan</div>
+        </div>
+        <div>
+          <div class="ep-list">
+            <div class="ep-item" data-id="svgCenter" data-color="#3b82f6" data-name="Titik Pusat (O)" data-desc="Titik tetap di tengah lingkaran. Semua titik di tepi memiliki jarak yang sama = r dari titik ini. Simbol O dari kata 'Origin' (asal/pusat)." onclick="selectPart(this)"><div class="ep-dot" style="background:#3b82f6"></div><span class="ep-lbl">Titik Pusat (O)</span><span class="ep-chk">✓</span></div>
+            <div class="ep-item" data-id="svgRadius" data-color="#f59e0b" data-name="Jari-jari (r)" data-desc="Ruas garis dari titik pusat ke titik manapun di tepi lingkaran. Panjangnya selalu sama ke semua arah — itulah yang mendefinisikan lingkaran." onclick="selectPart(this)"><div class="ep-dot" style="background:#f59e0b"></div><span class="ep-lbl">Jari-jari (r)</span><span class="ep-chk">✓</span></div>
+            <div class="ep-item" data-id="svgDiameter" data-color="#10b981" data-name="Diameter (d)" data-desc="Tali busur yang melewati titik pusat lingkaran. Nilainya d = 2r. Diameter adalah tali busur TERPANJANG yang bisa ada dalam suatu lingkaran." onclick="selectPart(this)"><div class="ep-dot" style="background:#10b981"></div><span class="ep-lbl">Diameter (d)</span><span class="ep-chk">✓</span></div>
+            <div class="ep-item" data-id="svgBusur" data-color="#ef4444" data-name="Busur" data-desc="Bagian dari keliling lingkaran — garis melengkung yang menghubungkan dua titik di tepi. Ada busur kecil (minor arc) dan busur besar (major arc)." onclick="selectPart(this)"><div class="ep-dot" style="background:#ef4444"></div><span class="ep-lbl">Busur</span><span class="ep-chk">✓</span></div>
+            <div class="ep-item" data-id="svgTaliBusur" data-color="#8b5cf6" data-name="Tali Busur" data-desc="Ruas garis lurus yang menghubungkan dua titik di tepi lingkaran, tapi TIDAK melewati pusat. Jika melewati pusat, namanya diameter." onclick="selectPart(this)"><div class="ep-dot" style="background:#8b5cf6"></div><span class="ep-lbl">Tali Busur</span><span class="ep-chk">✓</span></div>
+            <div class="ep-item" data-id="svgTembereng" data-color="#06b6d4" data-name="Tembereng" data-desc="Daerah yang dibatasi oleh tali busur dan busur lingkaran. Bentuknya seperti bulan sabit. Ada tembereng kecil dan tembereng besar." onclick="selectPart(this)"><div class="ep-dot" style="background:#06b6d4"></div><span class="ep-lbl">Tembereng</span><span class="ep-chk">✓</span></div>
+            <div class="ep-item" data-id="svgJuring" data-color="#ec4899" data-name="Juring" data-desc="Daerah seperti potongan pizza — dibatasi dua jari-jari dan busur di antaranya. Luas juring = (α/360°) × πr². Total semua juring = luas lingkaran." onclick="selectPart(this)"><div class="ep-dot" style="background:#ec4899"></div><span class="ep-lbl">Juring</span><span class="ep-chk">✓</span></div>
+            <div class="ep-item" data-id="svgApotema" data-color="#607d8b" data-name="Apotema" data-desc="Jarak terpendek dari titik pusat ke tali busur. Selalu tegak lurus (90°) terhadap tali busur. Rumus: a = √(r² − (l/2)²) di mana l = panjang tali busur." onclick="selectPart(this)"><div class="ep-dot" style="background:#607d8b"></div><span class="ep-lbl">Apotema</span><span class="ep-chk">✓</span></div>
+          </div>
+          <div class="ep-prog-bar"><div class="ep-prog-fill" id="epFill" style="width:0%"></div></div>
+          <div class="ep-prog-txt">Ditemukan: <strong id="epCount">0</strong>/8 bagian</div>
+          <div class="ep-popup" id="epPopup">
+            <div class="ep-popup-name" id="epPopupName"></div>
+            <div class="ep-popup-desc" id="epPopupDesc"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TAB 4: GARIS SINGGUNG ===== -->
+    <div class="tab-pane" id="t-gs">
+      <div class="gs-dark">
+        <span class="lbl lo">Materi 2</span>
+        <h2 class="sec-title wh">Garis Singgung Lingkaran</h2>
+        <p class="sec-desc mt">Garis yang menyentuh lingkaran di <strong class="acc-y">tepat satu titik</strong> tanpa memotongnya. Titik itu disebut <strong class="acc-y">titik singgung</strong>.</p>
+        <div class="gs-layout">
+          <div class="gs-props">
+            <div class="gs-prop"><div class="gs-badge bdy">⊥</div><div><div class="gs-prop-t">Tegak lurus jari-jari</div><div class="gs-prop-d">Di titik singgung, garis singgung SELALU membentuk sudut 90° dengan jari-jari. Ini sifat terpenting!</div></div></div>
+            <div class="gs-prop"><div class="gs-badge bdg">①</div><div><div class="gs-prop-t">Tepat satu titik persekutuan</div><div class="gs-prop-d">Berbeda dengan garis potong (2 titik). Garis singgung hanya menyentuh di 1 titik saja.</div></div></div>
+            <div class="gs-prop"><div class="gs-badge bdb">=</div><div><div class="gs-prop-t">Dua garis dari titik luar</div><div class="gs-prop-d">Dari satu titik di luar lingkaran, bisa dibuat tepat 2 garis singgung — panjangnya selalu sama!</div></div></div>
+            <div class="gs-prop"><div class="gs-badge bdr2">✕</div><div><div class="gs-prop-t">Jarak pusat ke garis = r</div><div class="gs-prop-d">Jika jarak &lt; r → garis sekan (memotong). Jika jarak &gt; r → garis tidak menyentuh lingkaran.</div></div></div>
+          </div>
+          <div class="gs-visual">
+            <svg class="gs-svg" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="120" cy="130" r="80" fill="rgba(45,91,227,.15)" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+              <circle cx="120" cy="130" r="5" fill="#FFD84D"/>
+              <line x1="120" y1="130" x2="235" y2="50" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+              <line x1="120" y1="130" x2="235" y2="210" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+              <line x1="235" y1="20" x2="235" y2="240" stroke="#FFD84D" stroke-width="2.5"/>
+              <circle cx="235" cy="130" r="5" fill="#ff4f6b"/>
+              <rect x="224" y="48" width="11" height="11" fill="none" stroke="#ff4f6b" stroke-width="1.5"/>
+              <rect x="224" y="201" width="11" height="11" fill="none" stroke="#ff4f6b" stroke-width="1.5"/>
+              <text x="240" y="134" fill="#ff4f6b" font-size="13" font-weight="800" font-family="Nunito,sans-serif">P</text>
+              <text x="124" y="133" fill="#FFD84D" font-size="12" font-weight="800" font-family="Nunito,sans-serif">O</text>
+              <text x="162" y="100" fill="rgba(255,255,255,.6)" font-size="11" font-family="Nunito,sans-serif">t</text>
+              <text x="162" y="168" fill="rgba(255,255,255,.6)" font-size="11" font-family="Nunito,sans-serif">t</text>
+            </svg>
+            <div class="gs-fbox">
+              <div class="gs-flbl">Panjang Garis Singgung dari Titik Luar</div>
+              <div class="gs-fmain">t = √(d² − r²)</div>
+              <div class="gs-fvars">
+                <span><strong>d</strong> = jarak titik luar ke pusat lingkaran</span>
+                <span><strong>r</strong> = jari-jari lingkaran</span>
+                <span><strong>t</strong> = panjang garis singgung</span>
+              </div>
+            </div>
+            <div class="gs-kalk">
+              <div class="gs-kalk-t">Hitung Sendiri!</div>
+              <div class="gs-krow">
+                <label>d (jarak ke pusat):</label>
+                <div class="gs-kslider-row">
+                  <input type="range" min="8" max="26" value="13" step="1" id="gsD" oninput="updateGS()"/>
+                  <span class="gs-kval" id="gsDVal">13</span>
+                </div>
+              </div>
+              <div class="gs-krow">
+                <label>r (jari-jari):</label>
+                <div class="gs-kslider-row">
+                  <input type="range" min="2" max="7" value="5" step="1" id="gsR" oninput="updateGS()"/>
+                  <span class="gs-kval" id="gsRVal">5</span>
+                </div>
+              </div>
+              <div class="gs-kres">
+                <span>t = √(d²−r²) =</span>
+                <strong id="gsResult">12.00</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GSPL & GSPP -->
+      <div class="gsp-section">
+        <span class="lbl lp">Persekutuan Dua Lingkaran</span>
+        <h3 class="sm-title" style="margin-top:10px">Garis Singgung Persekutuan</h3>
+        <div class="gsp-grid">
+          <div class="gsp-card gsp-luar">
+            <div class="gsp-badge">GSPL</div>
+            <div class="gsp-name">Garis Singgung Persekutuan Luar</div>
+            <div class="gsp-formula">d = √(p² − (R−r)²)</div>
+            <p class="gsp-desc">Tidak memotong garis penghubung kedua pusat. Menggunakan <strong>selisih</strong> jari-jari (R−r).</p>
+            <ul class="gsp-list">
+              <li>p = jarak antar pusat kedua lingkaran</li>
+              <li>R = jari-jari lingkaran besar</li>
+              <li>r = jari-jari lingkaran kecil</li>
+            </ul>
+          </div>
+          <div class="gsp-card gsp-dalam">
+            <div class="gsp-badge gsp-badge-r">GSPP</div>
+            <div class="gsp-name">Garis Singgung Persekutuan Dalam</div>
+            <div class="gsp-formula">d = √(p² − (R+r)²)</div>
+            <p class="gsp-desc">Memotong garis penghubung kedua pusat. Menggunakan <strong>jumlah</strong> jari-jari (R+r).</p>
+            <ul class="gsp-list">
+              <li>p = jarak antar pusat kedua lingkaran</li>
+              <li>R = jari-jari lingkaran pertama</li>
+              <li>r = jari-jari lingkaran kedua</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teorema Sudut -->
       <div>
-        <div class="gs-prop">
-          <div class="gs-badge" style="background:#fbbf24;color:#78350f">⊥</div>
-          <div><div class="gp-title">Tegak lurus jari-jari</div><div class="gp-text">Di titik singgung, garis singgung SELALU membentuk sudut 90° dengan jari-jari. Ini sifat terpenting!</div></div>
-        </div>
-        <div class="gs-prop">
-          <div class="gs-badge" style="background:#10b981;color:#fff">①</div>
-          <div><div class="gp-title">Tepat satu titik persekutuan</div><div class="gp-text">Berbeda dengan garis potong (2 titik). Garis singgung hanya menyentuh di 1 titik.</div></div>
-        </div>
-        <div class="gs-prop">
-          <div class="gs-badge" style="background:#3b82f6;color:#fff">=</div>
-          <div><div class="gp-title">Dua garis dari titik luar</div><div class="gp-text">Dari satu titik di luar lingkaran, bisa dibuat tepat 2 garis singgung — panjangnya selalu sama!</div></div>
-        </div>
-        <div class="gs-prop">
-          <div class="gs-badge" style="background:#ef4444;color:#fff">✕</div>
-          <div><div class="gp-title">Tidak memotong lingkaran</div><div class="gp-text">Jarak dari pusat ke garis singgung = r. Jika jarak &lt; r → memotong. Jika &gt; r → tidak menyentuh.</div></div>
-        </div>
-        <div class="gs-extra">
-          <div class="gs-extra-title">Jenis Garis Singgung Persekutuan</div>
-          <table class="gs-tbl">
-            <tr><th>Jenis</th><th>Keterangan</th><th>Rumus</th></tr>
-            <tr>
-              <td style="color:#fbbf24;font-weight:800">GSPL</td>
-              <td style="color:rgba(255,255,255,.65)">Persekutuan Luar</td>
-              <td>√(p²−(R−r)²)</td>
-            </tr>
-            <tr>
-              <td style="color:#fb923c;font-weight:800">GSPP</td>
-              <td style="color:rgba(255,255,255,.65)">Persekutuan Dalam</td>
-              <td>√(p²−(R+r)²)</td>
-            </tr>
-          </table>
+        <span class="lbl lb">Teorema Sudut</span>
+        <h3 class="sm-title" style="margin-top:10px">Sudut Berkaitan dengan Garis Singgung</h3>
+        <div class="sudut-grid">
+          <div class="sudut-card"><div class="sudut-icon" style="color:#8b5cf6">∠</div><div class="sudut-t">Sudut antara Garis Singgung &amp; Tali Busur</div><div class="sudut-f">∠ = ½ × busur yang diapit</div><div class="sudut-d">Sudut antara garis singgung dan tali busur = setengah busur yang diapit keduanya (Teorema Tangent-Chord).</div></div>
+          <div class="sudut-card"><div class="sudut-icon" style="color:#ec4899">∠∠</div><div class="sudut-t">Sudut antara Dua Garis Singgung</div><div class="sudut-f">∠P = ½|busur besar − busur kecil|</div><div class="sudut-d">Sudut di titik luar P = setengah selisih busur besar dan busur kecil yang diapit dua garis singgung.</div></div>
+          <div class="sudut-card"><div class="sudut-icon" style="color:#f59e0b">90°</div><div class="sudut-t">Sudut di Titik Singgung</div><div class="sudut-f">∠ = 90°</div><div class="sudut-d">Jari-jari dan garis singgung di titik singgung SELALU membentuk sudut 90°. Sifat fundamental garis singgung.</div></div>
         </div>
       </div>
-      <div>
-        <svg class="gs-svg" viewBox="0 0 270 220" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="110" cy="110" r="75" fill="rgba(37,99,235,.15)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
-          <circle cx="110" cy="110" r="4.5" fill="#fbbf24"/>
-          <text x="115" y="108" fill="#fbbf24" font-size="11" font-weight="800" font-family="Plus Jakarta Sans,sans-serif">O</text>
-          <line x1="110" y1="110" x2="225" y2="35"  stroke="rgba(255,255,255,.2)" stroke-width="1.2"/>
-          <line x1="110" y1="110" x2="225" y2="185" stroke="rgba(255,255,255,.2)" stroke-width="1.2"/>
-          <line x1="225" y1="15"  x2="225" y2="205" stroke="#fbbf24" stroke-width="2.5"/>
-          <circle cx="225" cy="35"  r="3.5" fill="#ef4444"/>
-          <circle cx="225" cy="185" r="3.5" fill="#ef4444"/>
-          <circle cx="225" cy="110" r="4.5" fill="#f87171"/>
-          <text x="233" y="114" fill="#f87171" font-size="12" font-weight="800" font-family="Plus Jakarta Sans,sans-serif">P</text>
-          <rect x="214" y="33"  width="10" height="10" fill="none" stroke="#ef4444" stroke-width="1.5"/>
-          <rect x="214" y="176" width="10" height="10" fill="none" stroke="#ef4444" stroke-width="1.5"/>
-          <text x="155" y="78"  fill="rgba(255,255,255,.55)" font-size="10" font-family="Plus Jakarta Sans,sans-serif">t</text>
-          <text x="155" y="150" fill="rgba(255,255,255,.55)" font-size="10" font-family="Plus Jakarta Sans,sans-serif">t</text>
-          <text x="228" y="112" fill="#fbbf24" font-size="10" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">garis singgung</text>
-        </svg>
-        <div class="gs-formula-box">
-          <div class="gs-fl">Panjang Garis Singgung dari Titik Luar</div>
-          <div class="gs-fm">t = √(d² − r²)</div>
-          <div class="gs-fv">
-            <span><strong>d</strong> = jarak titik luar ke pusat</span>
-            <span><strong>r</strong> = jari-jari lingkaran</span>
-            <span><strong>t</strong> = panjang garis singgung</span>
+    </div>
+
+    <!-- ===== TAB 5: LATIHAN SOAL ===== -->
+    <div class="tab-pane" id="t-soal">
+      <span class="lbl lp">Latihan Soal</span>
+      <h2 class="sec-title">10 Soal Pilihan Ganda</h2>
+      <p class="sec-desc">Jawab semua soal dengan benar untuk mendapat nilai sempurna dan animasi kemenangan! Setiap soal diberi waktu 20 detik.</p>
+
+      <!-- QUIZ AREA -->
+      <div id="quizArea">
+        <div class="quiz-hdr">
+          <div class="quiz-meta">
+            <span class="quiz-badge">Soal Latihan</span>
+            <span class="quiz-num" id="qNum">Soal 1 / 10</span>
+          </div>
+          <div class="score-box">
+            <span class="score-lbl">Skor</span>
+            <span class="score-val" id="scoreLive">0</span>
           </div>
         </div>
-        <div class="gs-calc-box">
-          <div class="gs-calc-title">Hitung Sendiri</div>
-          <label class="gs-calc-label">d (jarak ke pusat)</label>
-          <div class="gs-calc-row">
-            <input type="range" min="8" max="26" value="13" step="1" id="gsD2" oninput="updateGS2()">
-            <span class="gs-calc-val" id="gsDV">13</span>
-          </div>
-          <label class="gs-calc-label">r (jari-jari)</label>
-          <div class="gs-calc-row" style="margin-bottom:12px">
-            <input type="range" min="2" max="7" value="5" step="1" id="gsR2" oninput="updateGS2()">
-            <span class="gs-calc-val" id="gsRV">5</span>
-          </div>
-          <div class="gs-calc-result">
-            <span>t = √(d²−r²) =</span>
-            <strong id="gsRes">12.00</strong>
-          </div>
+        <div class="qdots" id="qdots"></div>
+        <div class="timer-wrap">
+          <div class="timer-bar"><div class="timer-fill" id="timerFill" style="width:100%"></div></div>
+          <span class="timer-num" id="timerNum">20</span>
+        </div>
+        <div class="q-card">
+          <div class="q-type" id="qType">Pilihan Ganda</div>
+          <div class="q-text" id="qText"></div>
+          <div id="qFormula" class="q-formula" style="display:none"></div>
+        </div>
+        <div class="opts-grid" id="optsGrid"></div>
+        <div class="fb-box" id="fbBox">
+          <div class="fb-t" id="fbTitle"></div>
+          <div class="fb-d" id="fbDesc"></div>
+        </div>
+        <button class="next-btn" id="nextBtn" onclick="nextQ()" disabled>Lanjut →</button>
+      </div>
+
+      <!-- RESULT SCREEN -->
+      <div class="result-screen" id="resultScreen">
+        <div class="res-trophy" id="resTrophy"></div>
+        <div class="res-stars" id="resStars"></div>
+        <div class="res-title" id="resTitle"></div>
+        <div class="res-sub" id="resSub"></div>
+        <div id="resPerfectBanner" style="display:none" class="res-perfect">
+          <div class="res-perfect-t">🎊 NILAI SEMPURNA! Luar Biasa! 🎊</div>
+          <div class="res-perfect-d">Kamu menjawab semua 10 soal dengan benar tanpa kesalahan!</div>
+        </div>
+        <div class="res-score" id="resScore"></div>
+        <div class="res-max">dari 100 poin</div>
+        <div class="res-stats">
+          <div class="rstat"><div class="rstat-v gn" id="rCorrect"></div><div class="rstat-l">Benar</div></div>
+          <div class="rstat"><div class="rstat-v rd" id="rWrong"></div><div class="rstat-l">Salah</div></div>
+          <div class="rstat"><div class="rstat-v bl" id="rTime"></div><div class="rstat-l">Detik</div></div>
+        </div>
+        <div class="res-bkd" id="resBkd"></div>
+        <div class="res-btns">
+          <button class="res-btn res-btn-o" onclick="retryWrong()" id="retryWrongBtn">🔁 Ulangi Soal yang Salah</button>
+          <button class="res-btn" onclick="startQuiz()">↺ Mulai Ulang Semua</button>
         </div>
       </div>
     </div>
+
+  </div><!-- end tab-wrap -->
+</div><!-- end main-app -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-in">
+    <div class="footer-logo">◉ Matematika Kelas XI</div>
+    <div class="footer-txt">Lauretta Josephine XI SIJA 2</div>
   </div>
+</footer>
 
-  <div class="gs-teorema">
-    <span class="slabel slabel-p">Teorema Sudut</span>
-    <h3 class="teorema-title">Sudut yang Berhubungan dengan Garis Singgung</h3>
-    <div class="gs-teorema-grid">
-      <div class="gt-card">
-        <div class="gt-label" style="color:#8b5cf6">Garis Singgung &amp; Tali Busur</div>
-        <div class="gt-formula">∠ = ½ busur yang dipotong</div>
-        <div class="gt-desc">Sudut antara garis singgung dan tali busur sama dengan setengah busur yang diapit oleh keduanya.</div>
-      </div>
-      <div class="gt-card">
-        <div class="gt-label" style="color:#ec4899">Dua Garis Singgung</div>
-        <div class="gt-formula">∠P = ½|busur besar − busur kecil|</div>
-        <div class="gt-desc">Sudut di titik luar P sama dengan setengah selisih busur besar dan busur kecil.</div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- CONFETTI CONTAINER -->
+<div class="conf-wrap" id="confWrap"></div>
 
-<!-- ==================== TAB 5: LATIHAN SOAL ==================== -->
-<div class="section" id="t-soal">
-  <span class="slabel slabel-v">Latihan Soal</span>
-  <h2 class="stitle">10 Soal Pilihan Ganda</h2>
-  <p class="sdesc">Jawab semua soal dengan benar untuk mendapat nilai sempurna. Setiap soal diberi waktu 20 detik!</p>
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+// =============================================
+// NAVBAR
+// =============================================
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('scrolled',window.scrollY>50);
+});
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+function scrollToApp(){
+  document.getElementById('mainApp').scrollIntoView({behavior:'smooth'});
+}
 
-  <div id="quizArea">
-    <div class="quiz-header">
-      <div class="quiz-meta">
-        <span class="qbadge">Soal Latihan</span>
-        <span class="qnum" id="qNum">Soal 1 / 10</span>
-      </div>
-      <div class="score-box">
-        <span class="score-lbl">Skor</span>
-        <span class="score-val" id="scoreLive">0</span>
-      </div>
-    </div>
-    <div class="qdots" id="qdots"></div>
-    <div class="timer-wrap">
-      <div class="timer-bar"><div class="timer-fill" id="timerFill" style="width:100%"></div></div>
-      <span class="timer-num" id="timerNum">20</span>
-    </div>
-    <div class="q-card">
-      <div class="q-type-tag" id="qType">Pilihan Ganda</div>
-      <div class="q-text" id="qText"></div>
-      <div id="qFormula" class="q-formula" style="display:none"></div>
-    </div>
-    <div class="opts-grid" id="optsGrid"></div>
-    <div class="feedback-box" id="feedbackBox">
-      <div class="fb-title" id="fbTitle"></div>
-      <div id="fbText"></div>
-    </div>
-    <button class="next-btn" id="nextBtn" onclick="nextQ()" disabled>Lanjut →</button>
-  </div>
+// =============================================
+// TAB SWITCHING
+// =============================================
+function switchTab(id,el){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('mainApp').scrollIntoView({behavior:'smooth',block:'start'});
+  // Re-trigger reveal
+  triggerReveal();
+}
 
-  <div class="result-screen" id="resultScreen">
-    <div id="resultTrophy" class="result-trophy"></div>
-    <div class="result-stars" id="resultStars"></div>
-    <div class="result-title" id="resultTitle"></div>
-    <div class="result-sub" id="resultSub"></div>
-    <div class="result-score-big" id="resultScore"></div>
-    <div class="result-score-max">dari 100 poin</div>
-    <div class="result-stats">
-      <div class="rstat"><div class="rstat-val" id="rCorrect" style="color:#10b981"></div><div class="rstat-lbl">Benar</div></div>
-      <div class="rstat"><div class="rstat-val" id="rWrong"   style="color:#ef4444"></div><div class="rstat-lbl">Salah</div></div>
-      <div class="rstat"><div class="rstat-val" id="rTime"></div><div class="rstat-lbl">Detik</div></div>
-    </div>
-    <div class="result-breakdown" id="resultBreakdown"></div>
-    <div>
-      <button class="retry-btn retry-outline" onclick="retryWrong()" id="retryWrongBtn">🔁 Ulangi yang Salah</button>
-      <button class="retry-btn" onclick="startQuiz()">↺ Mulai Ulang</button>
-    </div>
-  </div>
-</div>
+// =============================================
+// SCROLL REVEAL
+// =============================================
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.1});
+function triggerReveal(){
+  document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+}
+triggerReveal();
 
-</div><!-- /.page -->
+// =============================================
+// UNSUR DATA + SHOW
+// =============================================
+const unsurData=[
+  {icon:'🎯',name:'Titik Pusat (O)',sub:'Pusat lingkaran — titik yang menjadi acuan',desc:'Titik tetap yang menjadi pusat lingkaran. Semua titik pada lingkaran berjarak sama (= r) dari titik pusat. Dilambangkan dengan huruf O (dari kata "Origin").',fact:'💡 Ingat: Tanpa titik pusat, tidak ada lingkaran! Posisinya selalu di tengah.'},
+  {icon:'📏',name:'Jari-jari (r)',sub:'Garis dari pusat ke tepi lingkaran',desc:'Ruas garis yang menghubungkan titik pusat ke semua titik di tepi (keliling) lingkaran. Panjangnya selalu sama ke segala arah. Inilah yang mendefinisikan bentuk lingkaran.',fact:'💡 Rumus menurunkan r: r = d/2 atau r = K/(2π) atau r = √(L/π)'},
+  {icon:'↔️',name:'Diameter (d)',sub:'Tali busur terpanjang melewati pusat',desc:'Tali busur yang melewati titik pusat lingkaran. Nilainya = 2 × jari-jari. Setiap lingkaran memiliki tak terhingga garis diameter — semuanya panjangnya sama.',fact:'💡 d = 2r → Jika r = 7 cm, maka d = 14 cm. Diameter = tali busur terpanjang!'},
+  {icon:'〰️',name:'Busur',sub:'Bagian dari keliling lingkaran',desc:'Bagian dari keliling (tepi) lingkaran — berupa garis melengkung. Busur kecil (minor arc) lebih pendek dari setengah keliling. Busur besar (major arc) lebih panjang dari setengah keliling.',fact:'💡 Panjang busur = (α/360°) × 2πr, di mana α adalah sudut pusat yang mengapit busur tersebut.'},
+  {icon:'📐',name:'Tali Busur',sub:'Garis lurus menghubungkan dua titik di tepi',desc:'Ruas garis lurus yang kedua ujungnya berada pada lingkaran, tetapi TIDAK melewati pusat. Jika melewati pusat, maka namanya diameter (tali busur terpanjang).',fact:'💡 Tali busur terpanjang = diameter. Semakin jauh dari pusat, semakin pendek tali busurnya.'},
+  {icon:'🌙',name:'Tembereng',sub:'Daerah berbentuk bulan sabit',desc:'Daerah yang dibatasi oleh tali busur dan busur lingkaran. Bentuknya seperti bulan sabit atau irisan semangka. Ada tembereng kecil (di bawah tali busur) dan tembereng besar.',fact:'💡 Luas tembereng = Luas juring − Luas segitiga yang dibentuk oleh dua jari-jari dan tali busur.'},
+  {icon:'🍕',name:'Juring',sub:'Daerah seperti potongan pizza',desc:'Daerah yang dibatasi oleh dua buah jari-jari dan busur di antara keduanya. Bentuknya seperti potongan pizza. Disebut juga sektor lingkaran. Ada juring kecil dan juring besar.',fact:'💡 Luas juring = (α/360°) × πr². Jumlah semua juring dalam satu lingkaran = πr² (luas penuh).'},
+  {icon:'⊥',name:'Apotema',sub:'Jarak tegak lurus dari pusat ke tali busur',desc:'Ruas garis yang ditarik dari titik pusat dan tegak lurus (membentuk sudut 90°) terhadap tali busur. Apotema adalah jarak terpendek antara pusat dan tali busur.',fact:'💡 Rumus apotema: a = √(r² − (l/2)²), di mana l = panjang tali busur dan r = jari-jari.'},
+];
+function showUnsur(i){
+  const d=unsurData[i];
+  document.getElementById('udIcon').textContent=d.icon;
+  document.getElementById('udName').textContent=d.name;
+  document.getElementById('udSub').textContent=d.sub;
+  document.getElementById('udDesc').textContent=d.desc;
+  document.getElementById('udFact').textContent=d.fact;
+  const box=document.getElementById('unsurDetail');
+  box.style.display='block';
+  box.style.animation='none';box.offsetHeight;box.style.animation='fadeUp .25s ease';
+  document.querySelectorAll('.ucard').forEach((c,j)=>{
+    c.style.opacity=j===i?'1':'0.6';
+    c.style.transform=j===i?'translateY(-5px)':'';
+  });
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
 
-<div class="confetti-wrap" id="confettiWrap"></div>
+// =============================================
+// EKSPLORASI INTERAKTIF
+// =============================================
+let epDone=new Set();
+function selectPart(item){
+  const id=item.dataset.id,color=item.dataset.color,name=item.dataset.name,desc=item.dataset.desc;
+  const svgEl=document.getElementById(id);
+  if(item.classList.contains('done')){
+    item.classList.remove('done');
+    epDone.delete(id);
+    if(svgEl){
+      svgEl.style.stroke='#cbd5e1';
+      if(svgEl.tagName==='path') svgEl.style.fill=id==='svgJuring'?'rgba(236,72,153,.1)':id==='svgTembereng'?'rgba(6,182,212,.15)':'none';
+      if(svgEl.tagName==='circle') svgEl.style.fill='#2563eb';
+    }
+  } else {
+    item.classList.add('done');
+    epDone.add(id);
+    if(svgEl){
+      svgEl.style.stroke=color;svgEl.style.strokeWidth='3';
+      if(svgEl.tagName==='path') svgEl.style.fill=color+'44';
+      if(svgEl.tagName==='circle') svgEl.style.fill=color;
+    }
+    const popup=document.getElementById('epPopup');
+    document.getElementById('epPopupName').textContent=name;
+    document.getElementById('epPopupDesc').textContent=desc;
+    popup.classList.add('show');popup.style.display='block';
+  }
+  const n=epDone.size;
+  document.getElementById('epFill').style.width=(n/8*100)+'%';
+  document.getElementById('epCount').textContent=n;
+  document.getElementById('foundBadge').textContent=n+'/8 bagian ditemukan';
+}
 
-<script src="script.js"></script>
-</body>
-</html>
+// =============================================
+// KALKULATOR GARIS SINGGUNG
+// =============================================
+function updateGS(){
+  const d=parseFloat(document.getElementById('gsD').value)||13;
+  const r=parseFloat(document.getElementById('gsR').value)||5;
+  document.getElementById('gsDVal').textContent=d;
+  document.getElementById('gsRVal').textContent=r;
+  const t=Math.sqrt(Math.max(0,d*d-r*r));
+  const el=document.getElementById('gsResult');
+  el.textContent=t.toFixed(2);
+  el.style.animation='none';el.offsetHeight;el.style.animation='countUp .3s ease';
+}
+
+// =============================================
+// QUIZ — 10 SOAL
+// =============================================
+const ALL_Q=[
+  {type:'Pengertian Lingkaran',q:'Himpunan semua titik pada bidang yang berjarak sama dari satu titik tetap disebut…',opts:['Elips','Lingkaran','Parabola','Setengah lingkaran'],correct:1,expl:'Definisi lingkaran: semua titik berjarak sama (= r) dari titik pusat O. Jarak itulah yang disebut jari-jari.'},
+  {type:'Unsur Lingkaran',q:'Bagian lingkaran berbentuk seperti "potongan pizza" yang dibatasi dua jari-jari dan sebuah busur disebut…',opts:['Tembereng','Busur','Juring','Apotema'],correct:2,expl:'Juring = daerah yang dibatasi 2 jari-jari dan busur di antaranya. Persis seperti potongan pizza!'},
+  {type:'Unsur Lingkaran',q:'Jarak terpendek dari titik pusat ke tali busur, yang selalu tegak lurus terhadap tali busur, disebut…',opts:['Jari-jari','Diameter','Busur','Apotema'],correct:3,expl:'Apotema = garis dari pusat yang tegak lurus (90°) terhadap tali busur. Merupakan jarak terpendek dari pusat ke tali busur.'},
+  {type:'Rumus Dasar',q:'Jika jari-jari lingkaran = 14 cm, berapa kelilingnya? (gunakan π = ²²⁄₇)',opts:['44 cm','88 cm','154 cm','196 cm'],correct:1,expl:'K = 2πr = 2 × (22/7) × 14 = 2 × 44 = 88 cm. Rumus keliling: K = 2πr.'},
+  {type:'Rumus Dasar',formula:'L = πr²',q:'Luas lingkaran dengan jari-jari 7 cm adalah… (π = ²²⁄₇)',opts:['44 cm²','88 cm²','154 cm²','308 cm²'],correct:2,expl:'L = πr² = (22/7) × 7² = (22/7) × 49 = 22 × 7 = 154 cm².'},
+  {type:'Rumus Turunan',formula:'L juring = (α/360°) × πr²',q:'Luas juring dengan sudut pusat 90° pada lingkaran berjari-jari 14 cm adalah… (π = ²²⁄₇)',opts:['44 cm²','88 cm²','154 cm²','616 cm²'],correct:2,expl:'L = (90/360) × πr² = ¼ × (22/7) × 196 = ¼ × 616 = 154 cm².'},
+  {type:'Garis Singgung',q:'Sifat utama garis singgung lingkaran di titik singgung adalah…',opts:['Sejajar dengan jari-jari','Tegak lurus terhadap jari-jari','Memotong lingkaran di 2 titik','Melewati titik pusat lingkaran'],correct:1,expl:'Garis singgung SELALU tegak lurus (90°) terhadap jari-jari di titik singgung. Ini adalah sifat paling fundamental!'},
+  {type:'Garis Singgung',q:'Dari satu titik di luar lingkaran, berapa garis singgung yang dapat dibuat ke lingkaran tersebut?',opts:['Hanya 1 garis','Tepat 2 garis','Tepat 3 garis','Tak terhingga'],correct:1,expl:'Dari satu titik luar, selalu bisa dibuat tepat 2 garis singgung, dan panjang keduanya selalu SAMA.'},
+  {type:'Garis Singgung',formula:'t = √(d² − r²)',q:'Titik P berjarak 13 cm dari pusat lingkaran berjari-jari 5 cm. Panjang garis singgung dari P ke lingkaran adalah…',opts:['8 cm','10 cm','12 cm','√194 cm'],correct:2,expl:'t = √(d² − r²) = √(13² − 5²) = √(169 − 25) = √144 = 12 cm.'},
+  {type:'Garis Singgung Persekutuan',q:'Rumus panjang Garis Singgung Persekutuan Luar (GSPL) dua lingkaran dengan jarak pusat p, jari-jari R dan r adalah…',opts:['d = √(p² − (R+r)²)','d = √(p² − (R−r)²)','d = √(p² + (R−r)²)','d = √(p − R + r)'],correct:1,expl:'GSPL menggunakan SELISIH jari-jari: d = √(p² − (R−r)²). Sedangkan GSPP menggunakan JUMLAH: d = √(p² − (R+r)²).'},
+];
+
+let questions=[],current=0,score=0,answers=[],timerInt,timeLeft=20,startTime,totalTime=0;
+
+function buildDots(){
+  const d=document.getElementById('qdots');d.innerHTML='';
+  questions.forEach((_,i)=>{
+    const dot=document.createElement('div');
+    dot.className='qdot'+(i===0?' qa':'');
+    dot.id='qdot'+i;d.appendChild(dot);
+  });
+}
+
+function startQuiz(wrongOnly=false){
+  if(wrongOnly){
+    questions=questions.filter((_,i)=>answers[i]===false);
+    if(questions.length===0){questions=[...ALL_Q];}
+  } else {
+    questions=[...ALL_Q];
+  }
+  current=0;score=0;answers=new Array(questions.length).fill(null);
+  startTime=Date.now();totalTime=0;
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('resultScreen').classList.remove('show');
+  document.getElementById('quizArea').style.display='block';
+  document.getElementById('scoreLive').textContent='0';
+  buildDots();
+  loadQ();
+}
+
+function retryWrong(){
+  const wrongIdx=answers.map((a,i)=>a===false?i:null).filter(x=>x!==null);
+  if(wrongIdx.length===0){startQuiz();return;}
+  questions=wrongIdx.map(i=>ALL_Q[i]);
+  current=0;score=0;answers=new Array(questions.length).fill(null);
+  startTime=Date.now();
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('resultScreen').classList.remove('show');
+  document.getElementById('quizArea').style.display='block';
+  document.getElementById('scoreLive').textContent='0';
+  buildDots();loadQ();
+}
+
+function loadQ(){
+  const q=questions[current];
+  document.getElementById('qNum').textContent=`Soal ${current+1} / ${questions.length}`;
+  document.getElementById('qType').textContent=q.type;
+  document.getElementById('qText').textContent=q.q;
+  const fEl=document.getElementById('qFormula');
+  if(q.formula){fEl.style.display='inline-block';fEl.textContent=q.formula;}
+  else fEl.style.display='none';
+  const grid=document.getElementById('optsGrid');grid.innerHTML='';
+  ['A','B','C','D'].forEach((lt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML=`<span class="opt-lt
